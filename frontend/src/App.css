@@ -1,0 +1,22 @@
+.App {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+#nav-tab-container {
+  background-color: var(--aside-bar-background-color);
+  box-shadow: var(--aside-bar-box-shadow);
+  width: 300px;
+  top: 0;
+  bottom: 0;
+  position: fixed;
+}
+
+#main-section-outermost-container {
+  background-color: var(--main-section-background-color);
+  margin-left: 300px;
+  min-height: 100vh;
+  min-width: calc(100vw - 300px);
+  padding: 50px 60px 100px 60px;
+}

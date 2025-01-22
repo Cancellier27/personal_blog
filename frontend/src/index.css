@@ -1,7 +1,16 @@
+:root {
+  --main-text-color: #fff;
+  --second-text-color: rgb(211, 221, 217);
+  --aside-bar-background-color: rgb(40, 48, 68);
+  --aside-bar-box-shadow: 0 0 10px rgba(0, 0, 0, 0.75);
+  --main-section-background-color: rgb(32, 38, 52);
+}
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  color: var(--main-text-color);
 }
 
 body {
