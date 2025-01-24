@@ -4,13 +4,33 @@
   justify-content: flex-start;
 }
 
-#nav-tab-container {
+/* Aside / nav tab -------------------------- */
+#aside-tab-container {
   background-color: var(--aside-bar-background-color);
   box-shadow: var(--aside-bar-box-shadow);
   width: 300px;
   top: 0;
   bottom: 0;
   position: fixed;
+
+  padding: 40px;
+
+  border: solid red 1px;
+}
+
+.navigation-tag {
+  margin-top: 30px;
+}
+
+.nav-items-container {
+  list-style-type: none;
+}
+
+.nav-item {
+  padding: 4px 0 4px 8px;
+  margin: 4px 0 4px;
+  border: solid blue 1px;
+  border-radius: 8px;
 }
 
 #main-section-outermost-container {

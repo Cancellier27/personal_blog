@@ -1,12 +1,14 @@
 import "./App.css"
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faF } from '@fortawesome/free-solid-svg-icons'
 
 function App() {
   return (
     <div className="App">
-      <aside id="nav-tab-container">
-        <h1 className="main-title">FCC</h1>
+      <aside id="aside-tab-container">
+        <h1 className="main-title title-font"> FCC </h1>
         <nav className="navigation-tag">
-          <ul>
+          <ul className="nav-items-container">
             <li className="nav-item">Home</li>
             <li className="nav-item">Search</li>
             <li className="nav-item">News</li>
@@ -21,7 +23,5 @@ function App() {
     </div>
   )
 }
-
-// get the idea from the IGN website, starting from the latest news format.
 
 export default App
