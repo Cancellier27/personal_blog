@@ -1,37 +1,35 @@
 import "./App.css"
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
-import {
-  faHouse,
-  faMagnifyingGlass,
-  faPaperPlane
-} from "@fortawesome/free-solid-svg-icons"
+import NavBar from "./components/nav_bar"
+import NewsCard from "./components/news-card"
+
+import One_Piece from "./images/One_Piece.jpg"
 
 function App() {
   return (
     <div className="App">
-      <aside id="aside-tab-container">
-        <div>
-          <h1 className="main-title title-font"> FCC </h1>
-          <nav className="navigation-tag">
-            <ul className="nav-items-container">
-              <a className="nav-item">
-                <FontAwesomeIcon icon={faHouse} /> <p>Home</p>
-              </a>
-              <li className="nav-item">
-                <FontAwesomeIcon icon={faMagnifyingGlass} />
-                <p>Search</p>
-              </li>
-              <a className="nav-item">
-                <FontAwesomeIcon icon={faPaperPlane} />
-                <p>News</p>
-              </a>
-            </ul>
-          </nav>
-        </div>
-        <footer>All rights reserved &#169; </footer>
-      </aside>
+      <NavBar />
       <div id="main-section-outermost-container">
-        <section id="main-section-container">Main section</section>
+        <section id="main-section-container">
+          <h1 className="main-title title-font">Latest News</h1>
+          <NewsCard
+            title={"One Piece News Title"}
+            text={"One Piece brief message about summarizing the news. One Piece brief message about summarizing the news "}
+            image={One_Piece}
+            imgAlt={"One piece anime logo"}
+          />
+          <NewsCard
+            title={"One Piece News Title 2"}
+            text={"One Piece brief message about summarizing the news"}
+            image={One_Piece}
+            imgAlt={"One piece anime logo"}
+          />
+          <NewsCard
+            title={"One Piece News Title 3"}
+            text={"One Piece brief message about summarizing the news"}
+            image={One_Piece}
+            imgAlt={"One piece anime logo"}
+          />
+        </section>
         <footer id="footer-tag">Footer</footer>
       </div>
     </div>
