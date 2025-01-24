@@ -1,6 +1,6 @@
 import "./App.css"
 import NavBar from "./components/nav_bar"
-import NewsCard from "./components/news-card"
+import NewsCard from "./components/news_card"
 
 import One_Piece from "./images/One_Piece.jpg"
 
