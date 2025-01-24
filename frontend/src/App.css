@@ -6,6 +6,7 @@
 
 /* Aside / nav tab -------------------------- */
 #aside-tab-container {
+  padding: 40px;
   background-color: var(--aside-bar-background-color);
   box-shadow: var(--aside-bar-box-shadow);
   width: 300px;
@@ -13,9 +14,10 @@
   bottom: 0;
   position: fixed;
 
-  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 
-  border: solid red 1px;
 }
 
 .navigation-tag {
@@ -26,11 +28,25 @@
   list-style-type: none;
 }
 
+.nav-items-container a {
+  width: 100%;
+}
+
 .nav-item {
-  padding: 4px 0 4px 8px;
+  display: flex;
+  cursor: pointer;
+
+  padding: 9px 0 9px 8px;
   margin: 4px 0 4px;
-  border: solid blue 1px;
   border-radius: 8px;
+}
+
+.nav-item p {
+  margin-left: 10px;
+}
+
+.nav-item:hover {
+  background-color: var(--nav-hover-color);
 }
 
 #main-section-outermost-container {

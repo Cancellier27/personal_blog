@@ -4,6 +4,7 @@
   --aside-bar-background-color: rgb(40, 48, 68);
   --aside-bar-box-shadow: 0 0 10px rgba(0, 0, 0, 0.75);
   --main-section-background-color: rgb(32, 38, 52);
+  --nav-hover-color: rgba(138, 147, 153, 0.25);
 }
 
 .title-font {
