@@ -1,8 +1,9 @@
 import "./news_card.css"
+import { NavLink } from "react-router"
 
 export default function NewsCard({title, text, image, imgAlt}) {
   return (
-    <a href="#" className="main-news-card">
+    <NavLink to="/news" className="main-news-card">
       <img
         className="main-news-card-img"
         src={image}
@@ -12,6 +13,6 @@ export default function NewsCard({title, text, image, imgAlt}) {
         <h3>{title}</h3>
         <p>{text}</p>
       </div>
-    </a>
+    </NavLink>
   )
 }

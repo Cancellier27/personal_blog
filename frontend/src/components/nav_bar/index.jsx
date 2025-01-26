@@ -5,6 +5,7 @@ import {
   faMagnifyingGlass,
   faPaperPlane
 } from "@fortawesome/free-solid-svg-icons"
+import { NavLink } from "react-router"
 
 export default function NavBar() {
   return (
@@ -13,9 +14,9 @@ export default function NavBar() {
         <h1 className="title-font"> FCC </h1>
         <nav className="navigation-tag">
           <ul className="nav-items-container">
-            <a className="nav-item">
+            <NavLink to="/" className="nav-item">
               <FontAwesomeIcon icon={faHouse} /> <p>Home</p>
-            </a>
+            </NavLink>
             <li className="nav-item">
               <FontAwesomeIcon icon={faMagnifyingGlass} />
               <p>Search</p>
