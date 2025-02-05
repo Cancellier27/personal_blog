@@ -3,7 +3,8 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
 import {
   faHouse,
   faMagnifyingGlass,
-  faPaperPlane
+  faPaperPlane,
+  faRightToBracket
 } from "@fortawesome/free-solid-svg-icons"
 import { NavLink } from "react-router"
 
@@ -11,7 +12,7 @@ export default function NavBar() {
   return (
     <aside id="aside-tab-container">
       <div>
-        <h1 className="title-font"> FCC </h1>
+        <h1 className="title-font nav-bar-title"> FCC </h1>
         <nav className="navigation-tag">
           <ul className="nav-items-container">
             <NavLink to="/" className="nav-item">
@@ -25,6 +26,10 @@ export default function NavBar() {
               <FontAwesomeIcon icon={faPaperPlane} />
               <p>News</p>
             </a>
+            <NavLink to="/login" className="nav-item">
+            <FontAwesomeIcon icon={faRightToBracket} />
+              <p>Login</p>
+            </NavLink>
           </ul>
         </nav>
       </div>

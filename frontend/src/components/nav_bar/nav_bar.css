@@ -14,12 +14,18 @@
 
 }
 
+.nav-bar-title {
+  font-size: 35px;
+}
+
 .navigation-tag {
   margin-top: 30px;
 }
 
 .nav-items-container {
   list-style-type: none;
+  padding: 0;
+  height: 38px;
 }
 
 .nav-items-container a {
@@ -34,6 +40,7 @@
   padding: 9px 0 9px 8px;
   margin: 4px 0 4px;
   border-radius: 8px;
+  height: 38px;
 }
 
 .nav-item p {

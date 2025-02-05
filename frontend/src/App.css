@@ -10,6 +10,7 @@
   min-height: 100vh;
   min-width: calc(100vw - 300px);
   padding: 50px 250px 100px 140px;
+  position: relative;
 }
 
 .main-title {

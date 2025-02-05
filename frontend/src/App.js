@@ -1,3 +1,4 @@
+import { useState } from "react"
 import "./App.css"
 import NavBar from "./components/nav_bar"
 import NewsCard from "./components/news_card"
@@ -5,6 +6,8 @@ import NewsCard from "./components/news_card"
 import One_Piece from "./images/One_Piece.jpg"
 
 function App() {
+  const [isLogged, setIsLogged] = useState(null)
+
   return (
     <div className="App">
       <NavBar />
