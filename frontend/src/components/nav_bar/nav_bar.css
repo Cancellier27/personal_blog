@@ -34,6 +34,7 @@
 
 .nav-item {
   display: flex;
+  align-items: center;
   cursor: pointer;
   text-decoration: none;
 
@@ -44,9 +45,16 @@
 }
 
 .nav-item p {
-  margin-left: 10px;
+  margin: 0 0 0 10px;
+
 }
 
 .nav-item:hover {
   background-color: var(--nav-hover-color);
 }
+
+.log-out-container:hover p {
+  color: rgb(255, 48, 48);
+  font-weight: bold;
+}
+

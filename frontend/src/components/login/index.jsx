@@ -4,9 +4,12 @@ import FloatingLabel from "react-bootstrap/FloatingLabel"
 import Form from "react-bootstrap/Form"
 import Button from "react-bootstrap/Button"
 import axios from "axios"
+import {useNavigate} from "react-router"
 
 
 export default function LoginPage() {
+
+  const navigate = useNavigate()
 
   const handleSubmit = async (event) => {
     event.preventDefault()
@@ -25,7 +28,12 @@ export default function LoginPage() {
           axios.post("http://localhost:8000/login/success", {
             user: key,
             loginStatus: true
+          }).then((res) => {
+            navigate("/")
           })
+
+
+
         }
       })
     })

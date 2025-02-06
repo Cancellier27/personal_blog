@@ -12,6 +12,10 @@
   font-weight: 700;
 }
 
+.text-green {
+  color: rgb(60, 255, 0);
+}
+
 * {
   margin: 0;
   padding: 0;

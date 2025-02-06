@@ -13,12 +13,20 @@ app.get("/login", (req, res) => {
   res.json(db.users)
 })
 
-// post to change the json db to isLogged 
+// post to change the json db to isLogged true
 app.post("/login/success", (req, res) => {
   const {user, loginStatus} = req.body
   db.users[user].isLogged = loginStatus
   fs.writeFileSync("./DB/db.json", JSON.stringify(db, null, 2))
   res.status(201).json(`${user} success login!`)
+})
+
+// post to change the json db to isLogged false
+app.post("/login/out", (req, res) => {
+  const {user, loginStatus} = req.body
+  db.users[user].isLogged = loginStatus
+  fs.writeFileSync("./DB/db.json", JSON.stringify(db, null, 2))
+  res.status(201).json(`${user} logged out successfully!`)
 })
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`))

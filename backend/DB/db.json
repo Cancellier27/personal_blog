@@ -3,17 +3,20 @@
     "user1": {
       "email": "filipe@test.com",
       "password": "12345",
-      "isLogged": true
+      "isLogged": false,
+      "name": "Filipe"
     },
     "user2": {
       "email": "hailey@test.com",
       "password": "12345",
-      "isLogged": false
+      "isLogged": false,
+      "name": "Hailey"
     },
     "user3": {
       "email": "dyanne@test.com",
       "password": "12345",
-      "isLogged": false
+      "isLogged": false,
+      "name": "Dyanne"
     }
   }
 }
