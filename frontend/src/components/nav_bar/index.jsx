@@ -20,10 +20,10 @@ export default function NavBar() {
   useEffect(() => {
     try {
       // check if a user is logged in
-      axios.get("http://localhost:8000/login").then((res) => {
-        Object.entries(res.data).forEach(([user, value]) => {
-          if (value.isLogged) {
-            setIsLogged([value.name, true, user])
+      axios.get("http://localhost:8000/information").then((res) => {
+        Object.keys(res.data).forEach((key) => {
+          if (res.data[key].isLogged) {
+            setIsLogged([res.data[key].name, true, key])
           }
         })
       })

@@ -14,29 +14,25 @@ export default function LoginPage() {
   const handleSubmit = async (event) => {
     event.preventDefault()
 
-    const email = document.querySelector(".email-label").value
+    const username = document.querySelector(".email-label").value
     const password = document.querySelector(".password-label").value
+    
 
-    // send the request to backend to get the users list
-    await axios.get("http://localhost:8000/login").then((res) => {
+    if (!password) {
+      alert("Please enter a password!");
+      return; 
+    }
 
-      // check the users list to see if the credentials match
-      Object.entries(res.data).forEach(([key, user]) => {
-
-        // if the credentials match send a post to change the isLogged parameter to true
-        if (user.email === email && user.password === password) {
-          axios.post("http://localhost:8000/login/success", {
-            user: key,
-            loginStatus: true
-          }).then((res) => {
-            navigate("/")
-          })
-
-
-
-        }
+    // Login the user with encrypted password
+    try {
+      await axios.post("http://localhost:8000/login", {username, password: password.toString()})
+      .then((res) => {
+        navigate("/")
       })
-    })
+
+    } catch (error) {
+      console.error("Error!!:", error);
+    }
   }
 
   return (

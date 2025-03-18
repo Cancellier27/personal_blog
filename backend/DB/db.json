@@ -1,22 +1,23 @@
 {
-  "users": {
-    "user1": {
-      "email": "filipe@test.com",
-      "password": "12345",
-      "isLogged": false,
-      "name": "Filipe"
-    },
-    "user2": {
-      "email": "hailey@test.com",
-      "password": "12345",
-      "isLogged": false,
-      "name": "Hailey"
-    },
-    "user3": {
-      "email": "dyanne@test.com",
-      "password": "12345",
-      "isLogged": false,
-      "name": "Dyanne"
-    }
+  "user1": {
+    "email": "filipe@test.com",
+    "password": "$2b$10$Xr7M2ZlrPEnmTtE8VmKMKOILlCkvJVbSJbaWViSZAptGC0MTpbA6.",
+    "isLogged": true,
+    "isAdmin": true,
+    "name": "Filipe"
+  },
+  "user2": {
+    "email": "hailey@test.com",
+    "password": "$2b$10$Xr7M2ZlrPEnmTtE8VmKMKOILlCkvJVbSJbaWViSZAptGC0MTpbA6.",
+    "isLogged": false,
+    "isAdmin": false,
+    "name": "Hailey"
+  },
+  "user3": {
+    "email": "dyanne@test.com",
+    "password": "$2b$10$Xr7M2ZlrPEnmTtE8VmKMKOILlCkvJVbSJbaWViSZAptGC0MTpbA6.",
+    "isLogged": false,
+    "isAdmin": false,
+    "name": "Dyanne"
   }
 }
