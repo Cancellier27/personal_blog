@@ -12,7 +12,7 @@ export default function LoginPage() {
   const navigate = useNavigate()
 
   const handleSubmit = async (event) => {
-    event.preventDefault()
+    // event.preventDefault()
 
     const username = document.querySelector(".email-label").value
     const password = document.querySelector(".password-label").value

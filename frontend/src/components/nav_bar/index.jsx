@@ -16,14 +16,21 @@ import axios from "axios"
 
 export default function NavBar() {
   const [isLogged, setIsLogged] = useState(["user", false])
+  const [isAdmin, setIsAdmin] = useState(false)
 
   useEffect(() => {
     try {
       // check if a user is logged in
       axios.get("http://localhost:8000/information").then((res) => {
         Object.keys(res.data).forEach((key) => {
+          console.log(key)
           if (res.data[key].isLogged) {
             setIsLogged([res.data[key].name, true, key])
+
+            if (res.data[key].isAdmin) {
+              console.log(res.data[key].isAdmin)
+              setIsAdmin(true)
+            }
           }
         })
       })
@@ -34,13 +41,15 @@ export default function NavBar() {
 
   function handleLogOut() {
     try {
-      axios.post("http://localhost:8000/login/out", {
-        user: isLogged[2],
-        loginStatus: false
-      }).then(() => {
-        setIsLogged(["user", false])
-      })
-
+      axios
+        .post("http://localhost:8000/login/out", {
+          user: isLogged[2],
+          loginStatus: false
+        })
+        .then(() => {
+          setIsLogged(["user", false])
+          setIsAdmin(false)
+        })
     } catch (err) {
       console.error(`An error happened posting the log out`, err)
     }
@@ -68,17 +77,25 @@ export default function NavBar() {
               <p>Login</p>
             </NavLink>
 
-            {isLogged[1] && (
+            {isLogged[1] && isAdmin && (
               <>
                 <li className="nav-item">
-                <FontAwesomeIcon icon={faFileLines} />
+                  <FontAwesomeIcon icon={faFileLines} />
                   <p> Add news</p>
                 </li>
                 <li className="nav-item">
-                <FontAwesomeIcon icon={faTrash} />
+                  <FontAwesomeIcon icon={faTrash} />
                   <p> Delete news</p>
                 </li>
-                <li className="nav-item log-out-container" onClick={handleLogOut}>
+              </>
+            )}
+
+            {isLogged[1] && (
+              <>
+                <li
+                  className="nav-item log-out-container"
+                  onClick={handleLogOut}
+                >
                   <FontAwesomeIcon icon={faXmark} />
                   <p> Log out</p>
                 </li>
