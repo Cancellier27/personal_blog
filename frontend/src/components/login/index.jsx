@@ -5,33 +5,40 @@ import Form from "react-bootstrap/Form"
 import Button from "react-bootstrap/Button"
 import axios from "axios"
 import {useNavigate} from "react-router"
-
+import {useState} from "react"
 
 export default function LoginPage() {
-
+  const [LoginStatus, setLoginStatus] = useState(false)
   const navigate = useNavigate()
 
   const handleSubmit = async (event) => {
-    // event.preventDefault()
+    event.preventDefault()
 
     const username = document.querySelector(".email-label").value
     const password = document.querySelector(".password-label").value
-    
 
     if (!password) {
-      alert("Please enter a password!");
-      return; 
+      alert("Please enter a password!")
+      return
     }
 
     // Login the user with encrypted password
     try {
-      await axios.post("http://localhost:8000/login", {username, password: password.toString()})
-      .then((res) => {
-        navigate("/")
-      })
+      await axios
+        .post("http://localhost:8000/login", {
+          username,
+          password: password.toString()
+        })
+        .then((res) => {
+          setLoginStatus(true)
 
+
+          setTimeout(() => {
+            navigate("/")
+          }, 2000);
+        })
     } catch (error) {
-      console.error("Error!!:", error);
+      console.error("Error!!:", error)
     }
   }
 
@@ -69,6 +76,10 @@ export default function LoginPage() {
               </FloatingLabel>
               <Button type="submit">Submit form</Button>
             </Form>
+
+            {LoginStatus && (
+              <p className="LoginMsg"></p>
+            )}
           </div>
         </div>
       </div>

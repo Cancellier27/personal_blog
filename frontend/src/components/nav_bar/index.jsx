@@ -23,12 +23,13 @@ export default function NavBar() {
       // check if a user is logged in
       axios.get("http://localhost:8000/information").then((res) => {
         Object.keys(res.data).forEach((key) => {
-          console.log(key)
+
+          // set the is logged parameter to show more options
           if (res.data[key].isLogged) {
             setIsLogged([res.data[key].name, true, key])
 
+            // Set the admin privilege to show more options
             if (res.data[key].isAdmin) {
-              console.log(res.data[key].isAdmin)
               setIsAdmin(true)
             }
           }

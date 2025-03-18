@@ -14,3 +14,15 @@
 .login-user-login-container {
   width: 500px;
 }
+
+.LoginSuccessMsg {
+  margin-top: 10px;
+  color: greenyellow;
+  font-weight: bold;
+}
+
+.LoginBadMsg {
+  margin-top: 10px;
+  color: red;
+  font-weight: bold;
+}
