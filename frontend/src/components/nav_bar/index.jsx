@@ -80,10 +80,10 @@ export default function NavBar() {
 
             {isLogged[1] && isAdmin && (
               <>
-                <li className="nav-item">
+                <NavLink to="/add-news" className="nav-item">
                   <FontAwesomeIcon icon={faFileLines} />
                   <p> Add news</p>
-                </li>
+                </NavLink>
                 <li className="nav-item">
                   <FontAwesomeIcon icon={faTrash} />
                   <p> Delete news</p>

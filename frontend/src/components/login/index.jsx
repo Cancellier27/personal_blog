@@ -9,6 +9,7 @@ import {useState} from "react"
 
 export default function LoginPage() {
   const [LoginStatus, setLoginStatus] = useState(false)
+  const [loginClass, setLoginClass] = useState("")
   const navigate = useNavigate()
 
   const handleSubmit = async (event) => {
@@ -16,9 +17,12 @@ export default function LoginPage() {
 
     const username = document.querySelector(".email-label").value
     const password = document.querySelector(".password-label").value
+    const loginMsg = document.querySelector(".login-msg")
 
-    if (!password) {
-      alert("Please enter a password!")
+    // check if a password was inserted
+    if (!password || !username) {
+      setLoginClass("login-bad-msg")
+      loginMsg.innerHTML = "Invalid email or password. Try again."
       return
     }
 
@@ -31,11 +35,12 @@ export default function LoginPage() {
         })
         .then((res) => {
           setLoginStatus(true)
-
+          setLoginClass("login-success-msg")
+          loginMsg.innerHTML = "Success! Redirecting..."
 
           setTimeout(() => {
             navigate("/")
-          }, 2000);
+          }, 1500);
         })
     } catch (error) {
       console.error("Error!!:", error)
@@ -77,9 +82,9 @@ export default function LoginPage() {
               <Button type="submit">Submit form</Button>
             </Form>
 
-            {LoginStatus && (
-              <p className="LoginMsg"></p>
-            )}
+            
+              <p className={`login-msg ` + loginClass}> </p>
+            
           </div>
         </div>
       </div>

@@ -15,14 +15,17 @@
   width: 500px;
 }
 
-.LoginSuccessMsg {
+.login-msg {
+  height: 24px;
   margin-top: 10px;
-  color: greenyellow;
+  margin-bottom: 0;
   font-weight: bold;
 }
 
-.LoginBadMsg {
-  margin-top: 10px;
+.login-success-msg {
+  color: greenyellow;
+}
+
+.login-bad-msg {
   color: red;
-  font-weight: bold;
 }
