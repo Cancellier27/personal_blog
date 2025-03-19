@@ -1,0 +1,19 @@
+.add-news-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.add-news-form label {
+  margin-top: 10px;
+}
+
+.add-news-form input,
+.add-news-form textarea{
+  color: black;
+}
+
+.add-news-form button {
+  color: black;
+  width: 200px;
+  margin-top: 10px;
+}

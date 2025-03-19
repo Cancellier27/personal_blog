@@ -21,7 +21,7 @@ export default function NavBar() {
   useEffect(() => {
     try {
       // check if a user is logged in
-      axios.get("http://localhost:8000/information").then((res) => {
+      axios.get("http://localhost:8000/userInformation").then((res) => {
         Object.keys(res.data).forEach((key) => {
 
           // set the is logged parameter to show more options

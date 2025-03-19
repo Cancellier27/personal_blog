@@ -1,8 +1,10 @@
 const express = require("express")
 const cors = require("cors")
 const fs = require("fs")
-const db = require("./DB/db.json")
-const USERS_FILE = "./DB/db.json"
+const usersDb = require("./DB/users.json")
+const USERS_FILE = "./DB/users.json"
+
+const newsDb = require("./DB/news.json")
 
 const bcrypt = require("bcrypt")
 
@@ -33,8 +35,8 @@ const saveUsers = (users) => {
 }
 
 // to get the users list
-app.get("/information", (req, res) => {
-  res.json(db)
+app.get("/userInformation", (req, res) => {
+  res.json(usersDb)
 })
 
 // Login the user based on the db list
@@ -85,5 +87,12 @@ app.post("/login/out", (req, res) => {
 
   res.status(201).json(`${user} logged out successfully!`)
 })
+
+// to get the news list
+app.get("/newsInformation", (req, res) => {
+  res.json(newsDb)
+})
+
+
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`))

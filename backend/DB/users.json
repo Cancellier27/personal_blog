@@ -4,20 +4,23 @@
     "password": "$2b$10$Xr7M2ZlrPEnmTtE8VmKMKOILlCkvJVbSJbaWViSZAptGC0MTpbA6.",
     "isLogged": true,
     "isAdmin": true,
-    "name": "Filipe"
+    "name": "Filipe",
+    "surname": "Cancellier"
   },
   "user2": {
     "email": "hailey@test.com",
     "password": "$2b$10$Xr7M2ZlrPEnmTtE8VmKMKOILlCkvJVbSJbaWViSZAptGC0MTpbA6.",
     "isLogged": false,
     "isAdmin": false,
-    "name": "Hailey"
+    "name": "Hailey",
+    "surname": "Cancellier"
   },
   "user3": {
     "email": "dyanne@test.com",
     "password": "$2b$10$Xr7M2ZlrPEnmTtE8VmKMKOILlCkvJVbSJbaWViSZAptGC0MTpbA6.",
     "isLogged": false,
     "isAdmin": false,
-    "name": "Dyanne"
+    "name": "Dyanne",
+    "surname": "Florio"
   }
 }
