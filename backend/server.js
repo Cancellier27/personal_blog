@@ -69,7 +69,7 @@ app.post("/login", async (req, res) => {
       .status(200)
       .json({
         message: "Login successful",
-        user: {name: user.name, email: user.email}
+        userKey: userKey
       })
   } catch (error) {
     res.status(500).json({error: "Internal Server Error"})

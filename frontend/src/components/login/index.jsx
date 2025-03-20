@@ -12,6 +12,10 @@ export default function LoginPage() {
   const [loginClass, setLoginClass] = useState("")
   const navigate = useNavigate()
 
+  const loginUser = (userData) => {
+    localStorage.setItem("user", JSON.stringify(userData))
+  }
+
   const handleSubmit = async (event) => {
     event.preventDefault()
 
@@ -38,9 +42,12 @@ export default function LoginPage() {
           setLoginClass("login-success-msg")
           loginMsg.innerHTML = "Success! Redirecting..."
 
+          // When a user logs in, store their data in local storage:
+          loginUser({"userKey": res.data.userKey})
+
           setTimeout(() => {
             navigate("/")
-          }, 1500);
+          }, 1500)
         })
     } catch (error) {
       console.error("Error!!:", error)
@@ -82,9 +89,7 @@ export default function LoginPage() {
               <Button type="submit">Submit form</Button>
             </Form>
 
-            
-              <p className={`login-msg ` + loginClass}> </p>
-            
+            <p className={`login-msg ` + loginClass}> </p>
           </div>
         </div>
       </div>

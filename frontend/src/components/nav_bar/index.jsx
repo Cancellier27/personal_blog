@@ -13,19 +13,22 @@ import {
 import {NavLink} from "react-router"
 import {useState, useEffect} from "react"
 import axios from "axios"
+import {getUser} from "../../tools/utils"
 
 export default function NavBar() {
   const [isLogged, setIsLogged] = useState(["user", false])
   const [isAdmin, setIsAdmin] = useState(false)
 
   useEffect(() => {
+    let currentUser = getUser()
+    if (!currentUser) return
+
     try {
       // check if a user is logged in
       axios.get("http://localhost:8000/userInformation").then((res) => {
         Object.keys(res.data).forEach((key) => {
-
           // set the is logged parameter to show more options
-          if (res.data[key].isLogged) {
+          if (key === currentUser.userKey) {
             setIsLogged([res.data[key].name, true, key])
 
             // Set the admin privilege to show more options
@@ -40,6 +43,10 @@ export default function NavBar() {
     }
   }, [])
 
+  const logoutUser = () => {
+    localStorage.removeItem("user");
+  };
+
   function handleLogOut() {
     try {
       axios
@@ -50,6 +57,9 @@ export default function NavBar() {
         .then(() => {
           setIsLogged(["user", false])
           setIsAdmin(false)
+
+          // When the user logs out, clear the storage:
+          logoutUser()
         })
     } catch (err) {
       console.error(`An error happened posting the log out`, err)
