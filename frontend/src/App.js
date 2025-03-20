@@ -15,13 +15,15 @@ function App() {
     try {
       // check if a user is logged in
       axios.get("http://localhost:8000/newsInformation").then((res) => {
+        let dataArr = []
         Object.keys(res.data).forEach((key) => {
           // create a news array with the updated news from backend
-          setNews([...news, res.data[key]])
+          dataArr.push(res.data[key])
         })
+        setNews(dataArr)
       })
     } catch (err) {
-      console.error(`An error happened fetching the user list`, err)
+      console.error(`An error happened fetching the news list`, err)
     }
   }, [])
 
@@ -38,6 +40,7 @@ function App() {
               text={item.card.description}
               image={One_Piece}
               imgAlt={item.card.title}
+              newsId={item.card.title.split(" ").join("-")}
               key={index}
             />
             )
