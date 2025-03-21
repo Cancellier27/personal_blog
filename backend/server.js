@@ -1,19 +1,30 @@
 const express = require("express")
 const cors = require("cors")
 const fs = require("fs")
+const https = require("https")
 const usersDb = require("./DB/users.json")
 const USERS_FILE = "./DB/users.json"
-
 const newsDb = require("./DB/news.json")
-
 const bcrypt = require("bcrypt")
-
 const app = express()
 const PORT = process.env.PORT || 8000
 const saltRounds = 10
 
 app.use(express.json())
 app.use(cors())
+
+const sslOptions = {
+  key: fs.readFileSync("./key.pem"), // Load generated key
+  cert: fs.readFileSync("./cert.pem") // Load generated certificate
+}
+
+// Middleware to force HTTPS
+app.use((req, res, next) => {
+  if (!req.secure && req.headers["x-forwarded-proto"] !== "https") {
+    return res.redirect("https://" + req.headers.host + req.url)
+  }
+  next()
+})
 
 const loadUsers = () => {
   try {
@@ -37,6 +48,41 @@ const saveUsers = (users) => {
 // to get the users list
 app.get("/userInformation", (req, res) => {
   res.json(usersDb)
+})
+
+// update the password the user based on the db list
+app.post("/login/password-update", async (req, res) => {
+  try {
+    const {username, password} = req.body
+
+    if (!password || !username) {
+      return res.status(400).json({error: "Email or password are required"})
+    }
+
+    let users = loadUsers()
+    const userKey = Object.keys(users).find(
+      (key) => users[key].email === username
+    )
+    if (!userKey) {
+      return res.status(400).json({error: "Invalid email or password"})
+    }
+
+    bcrypt.genSalt(saltRounds, function (err, salt) {
+      bcrypt.hash(password, salt, function (err, hash) {
+        // Store new hash in your password DB.
+        users[userKey].password = hash
+        saveUsers(users)
+      })
+    })
+
+    res.status(200).json({
+      message: "Password update successful!"
+    })
+  } catch (error) {
+    res
+      .status(500)
+      .json({error: "Internal Server Error when updating password"})
+  }
 })
 
 // Login the user based on the db list
@@ -65,12 +111,10 @@ app.post("/login", async (req, res) => {
     users[userKey].isLogged = true
     saveUsers(users)
 
-    res
-      .status(200)
-      .json({
-        message: "Login successful",
-        userKey: userKey
-      })
+    res.status(200).json({
+      message: "Login successful",
+      userKey: userKey
+    })
   } catch (error) {
     res.status(500).json({error: "Internal Server Error"})
   }
@@ -82,7 +126,7 @@ app.post("/login/out", (req, res) => {
 
   let users = loadUsers()
   users[user].isLogged = loginStatus
-  
+
   saveUsers(users)
 
   res.status(201).json(`${user} logged out successfully!`)
@@ -93,6 +137,9 @@ app.get("/newsInformation", (req, res) => {
   res.json(newsDb)
 })
 
+// Run HTTPS Server on Port 3443
+https.createServer(sslOptions, app).listen(PORT, () => {
+  console.log(`Secure Express server running at https://localhost:${PORT}`)
+})
 
-
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`))
+// app.listen(PORT, () => console.log(`Server running on port ${PORT}`))

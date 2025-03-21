@@ -3,7 +3,7 @@ import One_Piece from "../../images/One_Piece.jpg"
 import NavBar from "../nav_bar"
 import {useParams} from "react-router"
 import {useEffect, useState} from "react"
-import axios from "axios"
+import axiosInstance from "../../tools/axios_instance"
 
 export default function NewsPage() {
   const [newsData, setNewsData] = useState(false)
@@ -13,7 +13,7 @@ export default function NewsPage() {
     const getNews = async () => {
       try {
         // fetch information from the news database
-        await axios.get("http://localhost:8000/newsInformation").then((res) => {
+        await axiosInstance.get("/newsInformation").then((res) => {
           Object.keys(res.data).forEach((key) => {
             let formattedTitle = res.data[key].card.title.split(" ").join("-")
 

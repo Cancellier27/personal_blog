@@ -1,6 +1,6 @@
 import "./add_news.css"
 import NavBar from "../nav_bar"
-import axios from "axios"
+import axiosInstance from "../../tools/axios_instance"
 import {useNavigate} from "react-router"
 import {useEffect, useState} from "react"
 import {getTodayDate, getUser} from "../../tools/utils"
@@ -18,7 +18,7 @@ export default function AddNews() {
 
     const getUserList = async () => {
       try {
-        await axios.get("http://localhost:8000/userInformation").then((res) => {
+        await axiosInstance.get("/userInformation").then((res) => {
           Object.keys(res.data).forEach((key) => {
             if (key === currentUser.userKey) {
               // get the current logged user name and surname

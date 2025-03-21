@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react"
-import axios from "axios"
+import axiosInstance from "./tools/axios_instance"
 import "./App.css"
 import NavBar from "./components/nav_bar"
 import NewsCard from "./components/news_card"
@@ -14,7 +14,7 @@ function App() {
     setNews([])
     try {
       // check if a user is logged in
-      axios.get("http://localhost:8000/newsInformation").then((res) => {
+      axiosInstance.get("/newsInformation").then((res) => {
         let dataArr = []
         Object.keys(res.data).forEach((key) => {
           // create a news array with the updated news from backend

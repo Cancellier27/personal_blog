@@ -7,8 +7,10 @@ import App from "./App"
 import NewsPage from "./components/news_page"
 import LoginPage from "./components/login"
 import AddNews from "./components/add_news"
+import axios from "axios"
 
 const root = ReactDOM.createRoot(document.getElementById("root"))
+
 root.render(
   <BrowserRouter>
     <Routes>

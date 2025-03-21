@@ -12,7 +12,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons"
 import {NavLink, useNavigate} from "react-router"
 import {useState, useEffect} from "react"
-import axios from "axios"
+import axiosInstance from "../../tools/axios_instance"
 import {getUser} from "../../tools/utils"
 
 export default function NavBar() {
@@ -26,7 +26,7 @@ export default function NavBar() {
 
     try {
       // check if a user is logged in
-      axios.get("http://localhost:8000/userInformation").then((res) => {
+      axiosInstance.get("/userInformation").then((res) => {
         Object.keys(res.data).forEach((key) => {
           // set the is logged parameter to show more options
           if (key === currentUser.userKey) {
@@ -50,8 +50,8 @@ export default function NavBar() {
 
   function handleLogOut() {
     try {
-      axios
-        .post("http://localhost:8000/login/out", {
+      axiosInstance
+        .post("/login/out", {
           user: isLogged[2],
           loginStatus: false
         })
