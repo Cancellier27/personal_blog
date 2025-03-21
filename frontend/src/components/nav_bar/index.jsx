@@ -10,7 +10,7 @@ import {
   faFileLines,
   faTrash
 } from "@fortawesome/free-solid-svg-icons"
-import {NavLink} from "react-router"
+import {NavLink, useNavigate} from "react-router"
 import {useState, useEffect} from "react"
 import axios from "axios"
 import {getUser} from "../../tools/utils"
@@ -18,6 +18,7 @@ import {getUser} from "../../tools/utils"
 export default function NavBar() {
   const [isLogged, setIsLogged] = useState(["user", false])
   const [isAdmin, setIsAdmin] = useState(false)
+  const navigate = useNavigate()
 
   useEffect(() => {
     let currentUser = getUser()
@@ -44,8 +45,8 @@ export default function NavBar() {
   }, [])
 
   const logoutUser = () => {
-    localStorage.removeItem("user");
-  };
+    localStorage.removeItem("user")
+  }
 
   function handleLogOut() {
     try {
@@ -60,6 +61,7 @@ export default function NavBar() {
 
           // When the user logs out, clear the storage:
           logoutUser()
+          navigate("/")
         })
     } catch (err) {
       console.error(`An error happened posting the log out`, err)

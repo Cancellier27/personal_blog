@@ -5,11 +5,15 @@ import {useNavigate} from "react-router"
 import {useEffect, useState} from "react"
 import {getTodayDate, getUser} from "../../tools/utils"
 
+import FloatingLabel from "react-bootstrap/FloatingLabel"
+import Form from "react-bootstrap/Form"
+import Button from "react-bootstrap/Button"
+
 export default function AddNews() {
   const [authorName, setAuthorName] = useState("")
 
   useEffect(() => {
-    // get current user key 
+    // get current user key
     let currentUser = getUser()
 
     const getUserList = async () => {
@@ -49,21 +53,62 @@ export default function AddNews() {
       <NavBar />
       <div id="main-section-outermost-container">
         <div>
-          <form action="" className="add-news-form" onSubmit={handleSubmit}>
-            <label htmlFor="cardTitle">Card Title</label>
-            <input type="text" id="cardTitle" name="cardTitle" />
-            <label htmlFor="cardDescription">Card news description</label>
-            <textarea type="text" id="cardDescription" name="cardDescription" />
-            <button type="button">Upload thumbnail</button>
-            <br />
-            <br />
-            <label htmlFor="newsTitle">News Title</label>
-            <input type="text" id="newsTitle" name="newsTitle" />
-            <label htmlFor="newsContent">News Title</label>
-            <textarea type="text" id="newsContent" name="newsContent" />
-            <button type="button">Upload image</button>
-            <button type="submit">Submit</button>
-          </form>
+          <h2>Create a news:</h2>
+          <br></br>
+          <Form onSubmit={handleSubmit}>
+            <Form.Label htmlFor="inputPassword5">Card Section</Form.Label>
+            <FloatingLabel
+              controlId="floatingTextarea"
+              label="Card Title. (max 40 char)"
+              className="mb-3"
+              data-bs-theme="dark"
+              
+            >
+              <Form.Control as="textarea" placeholder="Card Title (max 40 char)" maxLength={40}/>
+            </FloatingLabel>
+
+            <FloatingLabel
+              controlId="floatingTextarea"
+              label="Card news brief description Card Title. (max 150 char)"
+              className="mb-3"
+              data-bs-theme="dark"
+              maxLength="10"
+            >
+              <Form.Control
+                as="input"
+                placeholder="Card news brief description"
+                maxLength={150}
+              />
+            </FloatingLabel>
+            <Button type="">Upload Thumbnail</Button>
+            <br></br>
+            <br></br>
+            <Form.Label htmlFor="inputPassword5">News Section</Form.Label>
+            <FloatingLabel
+              controlId="floatingTextarea"
+              label="News Title. (max 100 char)"
+              className="mb-3"
+              data-bs-theme="dark"
+            >
+              <Form.Control as="textarea" placeholder="News Title" maxLength={100}/>
+            </FloatingLabel>
+            <FloatingLabel
+              controlId="floatingTextarea"
+              label="News description"
+              className="mb-3"
+              data-bs-theme="dark"
+            >
+              <Form.Control
+                as="textarea"
+                placeholder="News description"
+                style={{height: "100px"}}
+              />
+            </FloatingLabel>
+            <Button type="">Upload Images</Button>
+            <br></br>
+            <br></br>
+            <Button type="Submit">Submit Form</Button>
+          </Form>
         </div>
       </div>
     </div>
