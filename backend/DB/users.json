@@ -2,7 +2,7 @@
   "user1": {
     "email": "filipe@test.com",
     "password": "$2b$10$HrHaIW6iMGF1oBSpoMKmdeBkw/c3VY/zLakrVW6n291cd2Rjup6Ga",
-    "isLogged": true,
+    "isLogged": false,
     "isAdmin": true,
     "name": "Filipe",
     "surname": "Cancellier"

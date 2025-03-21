@@ -137,6 +137,34 @@ app.get("/newsInformation", (req, res) => {
   res.json(newsDb)
 })
 
+// create a new news
+app.post("/news/create", (req, res) => {
+  const entries = Object.keys(newsDb)
+  const [last] = entries.slice(-1)
+  // create the new news id
+  const newNewsId = `${last.split("-")[0]}-${Number(last.split("-")[1]) + 1}`
+
+  newsDb[newNewsId] = {
+    author: req.body.authorName,
+    publishDate: req.body.publishDate,
+    card: {
+      title: req.body.cardTitle,
+      description: req.body.cardDescription,
+      thumbnail: "Path-to-card-image",
+      alt: "One Piece Image"
+    },
+    news: {
+      title: req.body.newsTitle,
+      description: req.body.newsDescription,
+      image: "Path-to-news-image",
+      alt: "One Piece Image"
+    }
+  }
+
+  fs.writeFileSync("./DB/news.json", JSON.stringify(newsDb, null, 2))
+  res.status(201).json({message: "News created successfully!"})
+})
+
 // Run HTTPS Server on Port 3443
 https.createServer(sslOptions, app).listen(PORT, () => {
   console.log(`Secure Express server running at https://localhost:${PORT}`)

@@ -1,5 +1,5 @@
 {
-  "news1": {
+  "news-1": {
     "author": "Filipe Costa",
     "publishDate": "Mar 20 2025",
     "card": {
@@ -15,7 +15,7 @@
       "alt": "One Piece Image"
     }
   },
-  "news2": {
+  "news-2": {
     "author": "Hailey Cancellier",
     "publishDate": "Mar 17 2025",
     "card": {
