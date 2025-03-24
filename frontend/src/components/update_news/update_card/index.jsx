@@ -1,18 +1,19 @@
-import "./news_card.css"
-import { NavLink } from "react-router"
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
+import {faTrash, faPen} from "@fortawesome/free-solid-svg-icons"
 
-export default function NewsCard({title, text, image, imgAlt, newsId}) {
+export default function UpdateCard({cardTitle, newsTitle, newsId}) {
   return (
-    <NavLink to={`/news/${newsId}`} className="main-news-card">
-      <img
-        className="main-news-card-img"
-        src={image}
-        alt={imgAlt}
-      />
-      <div className="main-news-card-text-container">
-        <h3>{title}</h3>
-        <p>{text}</p>
+    <div className="update-card-main-container">
+      <div className="update-card-container">
+        <div className="update-card-titles" newsid={newsId}>
+          <h5 className="update-card-title"> Card: {cardTitle}</h5>
+          <h5 className="update-news-title">News: {newsTitle}</h5>
+        </div>
+        <div className="update-card-icons">
+          <FontAwesomeIcon icon={faPen} className="update-card-pen" />
+          <FontAwesomeIcon icon={faTrash} className="update-card-trash" />
+        </div>
       </div>
-    </NavLink>
+    </div>
   )
 }

@@ -1,7 +1,6 @@
 import "./add_news.css"
 import NavBar from "../nav_bar"
 import axiosInstance from "../../tools/axios_instance"
-import {useNavigate} from "react-router"
 import {useEffect, useState} from "react"
 import {getTodayDate, getUser} from "../../tools/utils"
 
@@ -12,7 +11,6 @@ import Button from "react-bootstrap/Button"
 export default function AddNews() {
   const [authorName, setAuthorName] = useState("")
   const [loginClass, setLoginClass] = useState("")
-  const navigate = useNavigate()
 
   useEffect(() => {
     // get current user key

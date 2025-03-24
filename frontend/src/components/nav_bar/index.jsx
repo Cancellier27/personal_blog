@@ -8,7 +8,6 @@ import {
   faXmark,
   faUser,
   faFileLines,
-  faTrash,
   faPen
 } from "@fortawesome/free-solid-svg-icons"
 import {NavLink, useNavigate} from "react-router"

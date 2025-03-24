@@ -20,7 +20,7 @@ root.render(
       <Route path="/news/:newsId" element={<NewsPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/add-news" element={<AddNews />} />
-      <Route path="/delete-news" element={<UpdateNews />} />
+      <Route path="/update-news" element={<UpdateNews />} />
     </Routes>
   </BrowserRouter>
 )
