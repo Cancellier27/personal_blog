@@ -165,6 +165,18 @@ app.post("/news/create", (req, res) => {
   res.status(201).json({message: "News created successfully!"})
 })
 
+// delete the news
+app.delete("/news/delete/:id", (req, res) => {
+  const newsId = req.params.id
+  delete newsDb[newsId]
+
+  fs.writeFileSync("./DB/news.json", JSON.stringify(newsDb, null, 2))
+  res.status(200).json({message: "News deleted successfully!"})
+})
+
+
+
+
 // Run HTTPS Server on Port 3443
 https.createServer(sslOptions, app).listen(PORT, () => {
   console.log(`Secure Express server running at https://localhost:${PORT}`)
