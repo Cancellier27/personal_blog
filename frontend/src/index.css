@@ -20,13 +20,17 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  color: var(--main-text-color);
 
   font-family: "Inter", serif;
   font-optical-sizing: auto;
   font-weight: 300;
   font-style: normal;
 }
+
+p,h1,h2,h3,h4,h5,h6,.icon {
+  color: var(--main-text-color);
+}
+
 
 body {
   margin: 0;

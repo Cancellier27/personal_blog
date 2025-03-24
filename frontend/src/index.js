@@ -3,11 +3,13 @@ import React from "react"
 import ReactDOM from "react-dom/client"
 import "./index.css"
 import {BrowserRouter, Routes, Route} from "react-router"
+
+// components
 import App from "./App"
 import NewsPage from "./components/news_page"
 import LoginPage from "./components/login"
 import AddNews from "./components/add_news"
-import axios from "axios"
+import UpdateNews from './components/update_news'
 
 const root = ReactDOM.createRoot(document.getElementById("root"))
 
@@ -18,6 +20,7 @@ root.render(
       <Route path="/news/:newsId" element={<NewsPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/add-news" element={<AddNews />} />
+      <Route path="/delete-news" element={<UpdateNews />} />
     </Routes>
   </BrowserRouter>
 )

@@ -8,7 +8,8 @@ import {
   faXmark,
   faUser,
   faFileLines,
-  faTrash
+  faTrash,
+  faPen
 } from "@fortawesome/free-solid-svg-icons"
 import {NavLink, useNavigate} from "react-router"
 import {useState, useEffect} from "react"
@@ -75,31 +76,31 @@ export default function NavBar() {
         <nav className="navigation-tag">
           <ul className="nav-items-container">
             <NavLink to="/" className="nav-item">
-              <FontAwesomeIcon icon={faHouse} /> <p>Home</p>
+              <FontAwesomeIcon className="icon" icon={faHouse} /> <p>Home</p>
             </NavLink>
             <li className="nav-item">
-              <FontAwesomeIcon icon={faMagnifyingGlass} />
+              <FontAwesomeIcon icon={faMagnifyingGlass} className="icon" />
               <p>Search</p>
             </li>
             <a className="nav-item">
-              <FontAwesomeIcon icon={faPaperPlane} />
+              <FontAwesomeIcon icon={faPaperPlane} className="icon" />
               <p>News</p>
             </a>
             <NavLink to="/login" className="nav-item">
-              <FontAwesomeIcon icon={faRightToBracket} />
+              <FontAwesomeIcon icon={faRightToBracket} className="icon" />
               <p>Login</p>
             </NavLink>
 
             {isLogged[1] && isAdmin && (
               <>
                 <NavLink to="/add-news" className="nav-item">
-                  <FontAwesomeIcon icon={faFileLines} />
+                  <FontAwesomeIcon icon={faFileLines} className="icon" />
                   <p> Add news</p>
                 </NavLink>
-                <li className="nav-item">
-                  <FontAwesomeIcon icon={faTrash} />
-                  <p> Delete news</p>
-                </li>
+                <NavLink to="/update-news" className="nav-item">
+                  <FontAwesomeIcon icon={faPen} className="icon" />
+                  <p> Update news</p>
+                </NavLink>
               </>
             )}
 
@@ -109,7 +110,7 @@ export default function NavBar() {
                   className="nav-item log-out-container"
                   onClick={handleLogOut}
                 >
-                  <FontAwesomeIcon icon={faXmark} />
+                  <FontAwesomeIcon icon={faXmark} className="log-out-icon" />
                   <p> Log out</p>
                 </li>
                 <li className="nav-item">

@@ -17,3 +17,10 @@
   width: 200px;
   margin-top: 10px;
 }
+
+.news-created-msg {
+  height: 24px;
+  margin-top: 10px;
+  margin-bottom: 0;
+  font-weight: bold;
+}

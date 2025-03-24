@@ -11,6 +11,8 @@ import Button from "react-bootstrap/Button"
 
 export default function AddNews() {
   const [authorName, setAuthorName] = useState("")
+  const [loginClass, setLoginClass] = useState("")
+  const navigate = useNavigate()
 
   useEffect(() => {
     // get current user key
@@ -37,15 +39,44 @@ export default function AddNews() {
 
   async function handleSubmit(event) {
     event.preventDefault()
+    const newsCreatedMsg = document.querySelector(".news-created-msg")
+    const newsForm = document.querySelector(".news-form")
+    const cardTitle = document.querySelector(".card-title-input").value
+    const cardDescription = document.querySelector(
+      ".card-description-input"
+    ).value
+    const newsTitle = document.querySelector(".news-title-input").value
+    const newsDescription = document.querySelector(
+      ".news-description-input"
+    ).value
+    const publishDate = getTodayDate()
 
-    let cardTitle = document.querySelector("#cardTitle").value
-    let cardDescription = document.querySelector("#cardDescription").value
-    let newsTitle = document.querySelector("#newsTitle").value
-    let newsDescription = document.querySelector("#newsContent").value
-    let publishDate = getTodayDate()
+    try {
+      await axiosInstance
+        .post("/news/create", {
+          cardTitle: cardTitle,
+          cardDescription: cardDescription,
+          newsTitle: newsTitle,
+          newsDescription: newsDescription,
+          publishDate: publishDate,
+          authorName: authorName
+        })
+        .then((res) => {
+          setLoginClass("success-msg")
+          newsCreatedMsg.innerHTML = "New news successfully created!"
 
-    // Create some safety measures in case a field is not populated.
-    // post the information to the backend
+          // reset the form after 2 seconds
+          setTimeout(() => {
+            setLoginClass("")
+            newsCreatedMsg.innerHTML = ""
+            newsForm.reset()
+          }, 2000)
+
+        })
+    } catch (error) {
+      console.error("Error posting the news:", error)
+    }
+
   }
 
   return (
@@ -55,16 +86,21 @@ export default function AddNews() {
         <div>
           <h2>Create a news:</h2>
           <br></br>
-          <Form onSubmit={handleSubmit}>
+          <Form onSubmit={handleSubmit} className="news-form">
             <Form.Label htmlFor="inputPassword5">Card Section</Form.Label>
             <FloatingLabel
               controlId="floatingTextarea"
               label="Card Title. (max 40 char)"
               className="mb-3"
               data-bs-theme="dark"
-              
             >
-              <Form.Control as="textarea" placeholder="Card Title (max 40 char)" maxLength={40}/>
+              <Form.Control
+                required
+                as="textarea"
+                className="card-title-input"
+                placeholder="Card Title (max 40 char)"
+                maxLength={40}
+              />
             </FloatingLabel>
 
             <FloatingLabel
@@ -75,14 +111,22 @@ export default function AddNews() {
               maxLength="10"
             >
               <Form.Control
+                required
                 as="input"
+                className="card-description-input"
                 placeholder="Card news brief description"
                 maxLength={150}
               />
             </FloatingLabel>
-            <Button type="">Upload Thumbnail</Button>
-            <br></br>
-            <br></br>
+            <Form.Group
+              data-bs-theme="dark"
+              controlId="formFile"
+              className="mb-3 w-50"
+            >
+              <Form.Label>Upload thumbnail</Form.Label>
+              <Form.Control type="file" />
+            </Form.Group>
+            <hr></hr>
             <Form.Label htmlFor="inputPassword5">News Section</Form.Label>
             <FloatingLabel
               controlId="floatingTextarea"
@@ -90,7 +134,13 @@ export default function AddNews() {
               className="mb-3"
               data-bs-theme="dark"
             >
-              <Form.Control as="textarea" placeholder="News Title" maxLength={100}/>
+              <Form.Control
+                required
+                as="textarea"
+                className="news-title-input"
+                placeholder="News Title"
+                maxLength={100}
+              />
             </FloatingLabel>
             <FloatingLabel
               controlId="floatingTextarea"
@@ -99,16 +149,25 @@ export default function AddNews() {
               data-bs-theme="dark"
             >
               <Form.Control
+                required
                 as="textarea"
+                className="news-description-input"
                 placeholder="News description"
                 style={{height: "100px"}}
               />
             </FloatingLabel>
-            <Button type="">Upload Images</Button>
-            <br></br>
-            <br></br>
+            <Form.Group
+              data-bs-theme="dark"
+              controlId="formFileMultiple"
+              className="mb-3 w-50"
+            >
+              <Form.Label>Upload images</Form.Label>
+              <Form.Control type="file" multiple />
+            </Form.Group>
+            <hr></hr>
             <Button type="Submit">Submit Form</Button>
           </Form>
+          <p className={`news-created-msg ` + loginClass}> </p>
         </div>
       </div>
     </div>

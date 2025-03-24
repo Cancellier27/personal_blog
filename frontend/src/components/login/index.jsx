@@ -8,7 +8,6 @@ import {useNavigate} from "react-router"
 import {useState} from "react"
 
 export default function LoginPage() {
-  const [LoginStatus, setLoginStatus] = useState(false)
   const [loginClass, setLoginClass] = useState("")
   const navigate = useNavigate()
 
@@ -38,7 +37,6 @@ export default function LoginPage() {
           password: password.toString()
         })
         .then((res) => {
-          setLoginStatus(true)
           setLoginClass("login-success-msg")
           loginMsg.innerHTML = "Success! Redirecting..."
 
@@ -63,7 +61,7 @@ export default function LoginPage() {
 
     // check if a password was inserted
     if (!password || !username) {
-      setLoginClass("login-bad-msg")
+      setLoginClass("error-msg")
       loginMsg.innerHTML = "Invalid email or password. Try again."
       return
     }
@@ -76,7 +74,7 @@ export default function LoginPage() {
           password: password.toString()
         })
         .then((res) => {
-          setLoginClass("login-success-msg")
+          setLoginClass("success-msg")
           loginMsg.innerHTML = "Password updated!"
 
           setTimeout(() => {
