@@ -1,12 +1,18 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faTrash, faPen } from "@fortawesome/free-solid-svg-icons"
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
+import {faTrash, faPen} from "@fortawesome/free-solid-svg-icons"
 import axiosInstance from "../../../tools/axios_instance"
 
-export default function UpdateCard({ onDelete, cardTitle, newsTitle, newsId }) {
+export default function UpdateCard({onDelete, cardTitle, newsTitle, newsId}) {
   async function handleDelete() {
+    const confirmingDelete = window.confirm(
+      "Are you sure you want to delete this news?"
+    )
+    if (!confirmingDelete) {
+      return
+    }
+
     try {
       await axiosInstance.delete(`/news/delete/${newsId}`)
-      console.log("News deleted successfully!")
       onDelete(newsId) // Update state in parent
     } catch (error) {
       console.error("Error while deleting the news!", error)
@@ -22,7 +28,11 @@ export default function UpdateCard({ onDelete, cardTitle, newsTitle, newsId }) {
         </div>
         <div className="update-card-icons">
           <FontAwesomeIcon icon={faPen} className="update-card-pen" />
-          <FontAwesomeIcon icon={faTrash} className="update-card-trash" onClick={handleDelete} />
+          <FontAwesomeIcon
+            icon={faTrash}
+            className="update-card-trash"
+            onClick={handleDelete}
+          />
         </div>
       </div>
     </div>
