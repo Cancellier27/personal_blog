@@ -30,21 +30,5 @@
       "image": "Path-to-news-image",
       "alt": "Silent Hill Image"
     }
-  },
-  "news-3": {
-    "author": "Filipe Cancellier",
-    "publishDate": "Mar 24 2025",
-    "card": {
-      "title": "teste",
-      "description": "teste news brief",
-      "thumbnail": "Path-to-card-image",
-      "alt": "One Piece Image"
-    },
-    "news": {
-      "title": "news title test",
-      "description": "news title test description",
-      "image": "Path-to-news-image",
-      "alt": "One Piece Image"
-    }
   }
 }

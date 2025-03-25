@@ -169,9 +169,10 @@ app.post("/news/create", (req, res) => {
 app.delete("/news/delete/:id", (req, res) => {
   const newsId = req.params.id
   delete newsDb[newsId]
+  console.log(newsDb)
 
   fs.writeFileSync("./DB/news.json", JSON.stringify(newsDb, null, 2))
-  res.status(200).json({message: "News deleted successfully!"})
+  res.status(200).json({message: "News deleted successfully from backend!"})
 })
 
 
