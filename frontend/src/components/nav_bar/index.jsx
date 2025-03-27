@@ -13,7 +13,7 @@ import {
 import {NavLink, useNavigate} from "react-router"
 import {useState, useEffect} from "react"
 import axiosInstance from "../../tools/axios_instance"
-import {getUser} from "../../tools/utils"
+import {getUserLogged} from "../../tools/utils"
 
 export default function NavBar() {
   const [isLogged, setIsLogged] = useState(["user", false])
@@ -21,7 +21,7 @@ export default function NavBar() {
   const navigate = useNavigate()
 
   useEffect(() => {
-    let currentUser = getUser()
+    let currentUser = getUserLogged()
     if (!currentUser) return
 
     try {

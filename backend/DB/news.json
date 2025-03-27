@@ -4,7 +4,7 @@
     "publishDate": "Mar 20 2025",
     "card": {
       "title": "One Piece News",
-      "description": "One piece news brief message about summarizing the news. One piece news brief message about summarizing the news",
+      "description": "One piece news brief message about summarizing the news.",
       "thumbnail": "Path-to-card-image",
       "alt": "One Piece Image"
     },
@@ -20,7 +20,7 @@
     "publishDate": "Mar 17 2025",
     "card": {
       "title": "Silent Hill News Title",
-      "description": "Silent Hill brief message about summarizing the news. Silent Hill brief message about summarizing the news",
+      "description": "Silent Hill brief message about summarizing the news.",
       "thumbnail": "Path-to-card-image",
       "alt": "Silent Hill Image"
     },

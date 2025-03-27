@@ -1,8 +1,11 @@
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
 import {faTrash, faPen} from "@fortawesome/free-solid-svg-icons"
 import axiosInstance from "../../../tools/axios_instance"
+import {useNavigate} from "react-router"
 
 export default function UpdateCard({onDelete, cardTitle, newsTitle, newsId}) {
+  const navigate = useNavigate()
+
   async function handleDelete() {
     const confirmingDelete = window.confirm(
       "Are you sure you want to delete this news?"
@@ -19,6 +22,10 @@ export default function UpdateCard({onDelete, cardTitle, newsTitle, newsId}) {
     }
   }
 
+  function handleEdit() {
+    navigate(`/update-news/${newsId}`)
+  }
+
   return (
     <div className="update-card-main-container">
       <div className="update-card-container">
@@ -27,7 +34,11 @@ export default function UpdateCard({onDelete, cardTitle, newsTitle, newsId}) {
           <h5 className="update-news-title">News: {newsTitle}</h5>
         </div>
         <div className="update-card-icons">
-          <FontAwesomeIcon icon={faPen} className="update-card-pen" />
+          <FontAwesomeIcon
+            icon={faPen}
+            className="update-card-pen"
+            onClick={handleEdit}
+          />
           <FontAwesomeIcon
             icon={faTrash}
             className="update-card-trash"

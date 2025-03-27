@@ -1,76 +1,84 @@
-import "./add_news.css"
+import "./edit_news.css"
 import NavBar from "../nav_bar"
 import axiosInstance from "../../tools/axios_instance"
 import {useEffect, useState} from "react"
-import {getTodayDate, getUser} from "../../tools/utils"
+import {getTodayDate, getNews} from "../../tools/utils"
+import {useParams} from "react-router"
 
 import FloatingLabel from "react-bootstrap/FloatingLabel"
 import Form from "react-bootstrap/Form"
 import Button from "react-bootstrap/Button"
 
-export default function AddNews() {
+export default function EditNews() {
   const [authorName, setAuthorName] = useState("")
   const [loginClass, setLoginClass] = useState("")
+  const [news, setNews] = useState()
+
+  const [cardTitle, setCardTitle] = useState()
+  const [cardDescription, setCardDescription] = useState()
+  const [newsTitle, setNewsTitle] = useState()
+  const [newsDescription, setNewsDescription] = useState()
+  
+  const params = useParams()
 
   useEffect(() => {
-    // get current user key
-    let currentUser = getUser()
+    async function fetchAndUseNews() {
+      const newsInformation = await getNews();
+      const news = newsInformation[params.newsId]
 
-    const getUserList = async () => {
-      try {
-        await axiosInstance.get("/userInformation").then((res) => {
-          Object.keys(res.data).forEach((key) => {
-            if (key === currentUser.userKey) {
-              // get the current logged user name and surname
-              setAuthorName(`${res.data[key].name} ${res.data[key].surname}`)
-            }
-          })
-        })
-      } catch (error) {
-        console.error("Error fetching the user list:", error)
-      }
+      setCardTitle(news.card.title)
+      setCardDescription(news.card.description)
+      setNewsTitle(news.news.title)
+      setNewsDescription(news.news.description)
+      
     }
-
-    // call async function
-    getUserList()
+    
+    fetchAndUseNews();
   }, [])
+
+  // Handle input changes
+  const handleChangeCardTitle = (e) => {
+    setCardTitle(e.target.value);
+  };
+  const handleChangeCardDesc = (e) => {
+    setCardDescription(e.target.value);
+  };
+  const handleChangeNewsTitle = (e) => {
+    setNewsTitle(e.target.value);
+  };
+  const handleChangeNewsDesc = (e) => {
+    setNewsDescription(e.target.value);
+  };
+
 
   async function handleSubmit(event) {
     event.preventDefault()
     const newsCreatedMsg = document.querySelector(".news-created-msg")
     const newsForm = document.querySelector(".news-form")
-    const cardTitle = document.querySelector(".card-title-input").value
-    const cardDescription = document.querySelector(
-      ".card-description-input"
-    ).value
-    const newsTitle = document.querySelector(".news-title-input").value
-    const newsDescription = document.querySelector(
-      ".news-description-input"
-    ).value
     const publishDate = getTodayDate()
 
     try {
-      await axiosInstance
-        .post("/news/create", {
-          cardTitle: cardTitle,
-          cardDescription: cardDescription,
-          newsTitle: newsTitle,
-          newsDescription: newsDescription,
-          publishDate: publishDate,
-          authorName: authorName
-        })
-        .then((res) => {
-          setLoginClass("success-msg")
-          newsCreatedMsg.innerHTML = "New news successfully created!"
+      // await axiosInstance
+      //   .post("/news/create", {
+      //     cardTitle: cardTitle,
+      //     cardDescription: cardDescription,
+      //     newsTitle: newsTitle,
+      //     newsDescription: newsDescription,
+      //     publishDate: publishDate,
+      //     authorName: authorName
+      //   })
+      //   .then((res) => {
+      //     setLoginClass("success-msg")
+      //     newsCreatedMsg.innerHTML = "New news successfully created!"
 
-          // reset the form after 2 seconds
-          setTimeout(() => {
-            setLoginClass("")
-            newsCreatedMsg.innerHTML = ""
-            newsForm.reset()
-          }, 2000)
+      //     // reset the form after 2 seconds
+      //     setTimeout(() => {
+      //       setLoginClass("")
+      //       newsCreatedMsg.innerHTML = ""
+      //       newsForm.reset()
+      //     }, 1000)
 
-        })
+        // })
     } catch (error) {
       console.error("Error posting the news:", error)
     }
@@ -82,7 +90,7 @@ export default function AddNews() {
       <NavBar />
       <div id="main-section-outermost-container">
         <div>
-          <h2>Create a news:</h2>
+          <h2>Update news:</h2>
           <br></br>
           <Form onSubmit={handleSubmit} className="news-form">
             <Form.Label htmlFor="inputPassword5">Card Section</Form.Label>
@@ -98,6 +106,9 @@ export default function AddNews() {
                 className="card-title-input"
                 placeholder="Card Title (max 40 char)"
                 maxLength={40}
+                onChange={handleChangeCardTitle}
+                value={cardTitle}
+                
               />
             </FloatingLabel>
 
@@ -110,10 +121,12 @@ export default function AddNews() {
             >
               <Form.Control
                 required
-                as="input"
+                as="textarea"
                 className="card-description-input"
                 placeholder="Card news brief description"
                 maxLength={150}
+                onChange={handleChangeCardDesc}
+                value={cardDescription}
               />
             </FloatingLabel>
             <Form.Group
@@ -138,6 +151,8 @@ export default function AddNews() {
                 className="news-title-input"
                 placeholder="News Title"
                 maxLength={100}
+                onChange={handleChangeNewsTitle}
+                value={newsTitle}
               />
             </FloatingLabel>
             <FloatingLabel
@@ -152,6 +167,8 @@ export default function AddNews() {
                 className="news-description-input"
                 placeholder="News description"
                 style={{height: "100px"}}
+                onChange={handleChangeNewsDesc}
+                value={newsDescription}
               />
             </FloatingLabel>
             <Form.Group

@@ -2,7 +2,7 @@ import "./add_news.css"
 import NavBar from "../nav_bar"
 import axiosInstance from "../../tools/axios_instance"
 import {useEffect, useState} from "react"
-import {getTodayDate, getUser} from "../../tools/utils"
+import {getTodayDate, getUserLogged} from "../../tools/utils"
 
 import FloatingLabel from "react-bootstrap/FloatingLabel"
 import Form from "react-bootstrap/Form"
@@ -14,7 +14,7 @@ export default function AddNews() {
 
   useEffect(() => {
     // get current user key
-    let currentUser = getUser()
+    let currentUser = getUserLogged()
 
     const getUserList = async () => {
       try {
@@ -110,7 +110,7 @@ export default function AddNews() {
             >
               <Form.Control
                 required
-                as="input"
+                as="textarea"
                 className="card-description-input"
                 placeholder="Card news brief description"
                 maxLength={150}
