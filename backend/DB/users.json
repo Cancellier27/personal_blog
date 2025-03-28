@@ -1,13 +1,13 @@
 {
-  "user1": {
+  "user-1": {
     "email": "filipe@test.com",
-    "password": "$2b$10$6b4zNKe2NGim7gSIowgvduOmYL5Rg4XLsHQUi3MBam12wG6GPCs8i",
+    "password": "$2b$10$3aeVpas5AAulSSb0v3POOOzhtRwn6Pg/DPgkDd0uZ5gLbCbJl2l9K",
     "isLogged": true,
     "isAdmin": true,
     "name": "Filipe",
     "surname": "Cancellier"
   },
-  "user2": {
+  "user-2": {
     "email": "hailey@test.com",
     "password": "$2b$10$Xr7M2ZlrPEnmTtE8VmKMKOILlCkvJVbSJbaWViSZAptGC0MTpbA6.",
     "isLogged": false,
@@ -15,7 +15,7 @@
     "name": "Hailey",
     "surname": "Cancellier"
   },
-  "user3": {
+  "user-3": {
     "email": "dyanne@test.com",
     "password": "$2b$10$Xr7M2ZlrPEnmTtE8VmKMKOILlCkvJVbSJbaWViSZAptGC0MTpbA6.",
     "isLogged": false,

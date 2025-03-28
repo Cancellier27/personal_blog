@@ -13,18 +13,18 @@ const saltRounds = 10
 app.use(express.json())
 app.use(cors())
 
-const sslOptions = {
-  key: fs.readFileSync("./key.pem"), // Load generated key
-  cert: fs.readFileSync("./cert.pem") // Load generated certificate
-}
+// const sslOptions = {
+//   key: fs.readFileSync("./key.pem"), // Load generated key
+//   cert: fs.readFileSync("./cert.pem") // Load generated certificate
+// }
 
 // Middleware to force HTTPS
-app.use((req, res, next) => {
-  if (!req.secure && req.headers["x-forwarded-proto"] !== "https") {
-    return res.redirect("https://" + req.headers.host + req.url)
-  }
-  next()
-})
+// app.use((req, res, next) => {
+//   if (!req.secure && req.headers["x-forwarded-proto"] !== "https") {
+//     return res.redirect("https://" + req.headers.host + req.url)
+//   }
+//   next()
+// })
 
 const loadUsers = () => {
   try {
@@ -175,12 +175,24 @@ app.delete("/news/delete/:id", (req, res) => {
   res.status(200).json({message: "News deleted successfully from backend!"})
 })
 
+app.put("/news/edit", (req, res) => {
+  const newsId = req.body.newsId
+  console.log(req.body)
+  newsDb[newsId].card.title = req.body.cardTitle
+  newsDb[newsId].card.description = req.body.cardDescription
+  newsDb[newsId].news.title = req.body.newsTitle
+  newsDb[newsId].news.description = req.body.newsDescription
+
+  fs.writeFileSync("./DB/news.json", JSON.stringify(newsDb, null, 2))
+  res.status(200).json({message: "News updated successfully!"})
+})
+
 
 
 
 // Run HTTPS Server on Port 3443
-https.createServer(sslOptions, app).listen(PORT, () => {
-  console.log(`Secure Express server running at https://localhost:${PORT}`)
-})
+// https.createServer(sslOptions, app).listen(PORT, () => {
+//   console.log(`Secure Express server running at https://localhost:${PORT}`)
+// })
 
-// app.listen(PORT, () => console.log(`Server running on port ${PORT}`))
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`))
