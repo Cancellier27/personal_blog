@@ -21,8 +21,6 @@ export function getUserLogged() {
 export async function getUsers() {
   try {
     const usersInformation = await axiosInstance.get("/userInformation")
-    console.log(usersInformation.data)
-    console.log("filipe")
     return usersInformation.data
   } catch (error) {
     console.error("Error fetching the user list:", error)
@@ -31,14 +29,10 @@ export async function getUsers() {
 
 // get news
 export async function getNews() {
-  let newsInformation = ""
-
   try {
-    const newsFetch = await axiosInstance.get("/newsInformation")
-    newsInformation = newsFetch.data
+    const newsInformation = await axiosInstance.get("/newsInformation")
+    return newsInformation.data
   } catch (error) {
     console.error("Error fetching the news list:", error)
   }
-
-  return newsInformation
 }

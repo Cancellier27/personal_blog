@@ -2,8 +2,8 @@ import "./edit_news.css"
 import NavBar from "../nav_bar"
 import axiosInstance from "../../tools/axios_instance"
 import {useEffect, useState} from "react"
-import {getTodayDate, getNews} from "../../tools/utils"
-import {useParams} from "react-router"
+import {getTodayDate, getNews, getUsers, getUserLogged} from "../../tools/utils"
+import {useParams, useNavigate} from "react-router"
 
 import FloatingLabel from "react-bootstrap/FloatingLabel"
 import Form from "react-bootstrap/Form"
@@ -12,77 +12,94 @@ import Button from "react-bootstrap/Button"
 export default function EditNews() {
   const [authorName, setAuthorName] = useState("")
   const [loginClass, setLoginClass] = useState("")
-  const [news, setNews] = useState()
-
   const [cardTitle, setCardTitle] = useState()
   const [cardDescription, setCardDescription] = useState()
   const [newsTitle, setNewsTitle] = useState()
   const [newsDescription, setNewsDescription] = useState()
-  
+
+  const navigate = useNavigate()
   const params = useParams()
 
   useEffect(() => {
-    async function fetchAndUseNews() {
-      const newsInformation = await getNews();
+    async function fetchNewsList() {
+      const newsInformation = await getNews()
       const news = newsInformation[params.newsId]
 
       setCardTitle(news.card.title)
       setCardDescription(news.card.description)
       setNewsTitle(news.news.title)
       setNewsDescription(news.news.description)
-      
     }
-    
-    fetchAndUseNews();
+
+    async function fetchUserList() {
+      const userInformation = await getUsers()
+      const currentUser = getUserLogged()
+
+      Object.keys(userInformation).forEach((key) => {
+        if (key === currentUser.userKey) {
+          setAuthorName(
+            `${userInformation[key].name} ${userInformation[key].surname}`
+          )
+        }
+      })
+    }
+
+    fetchNewsList()
+    fetchUserList()
   }, [])
 
   // Handle input changes
   const handleChangeCardTitle = (e) => {
-    setCardTitle(e.target.value);
-  };
+    setCardTitle(e.target.value)
+  }
   const handleChangeCardDesc = (e) => {
-    setCardDescription(e.target.value);
-  };
+    setCardDescription(e.target.value)
+  }
   const handleChangeNewsTitle = (e) => {
-    setNewsTitle(e.target.value);
-  };
+    setNewsTitle(e.target.value)
+  }
   const handleChangeNewsDesc = (e) => {
-    setNewsDescription(e.target.value);
-  };
-
+    setNewsDescription(e.target.value)
+  }
 
   async function handleSubmit(event) {
     event.preventDefault()
+
+    const areYouSureCheck = window.confirm(
+      "Are you sure you want to update the news?"
+    )
+    if (!areYouSureCheck) return
+
     const newsCreatedMsg = document.querySelector(".news-created-msg")
     const newsForm = document.querySelector(".news-form")
     const publishDate = getTodayDate()
 
     try {
-      // await axiosInstance
-      //   .post("/news/create", {
-      //     cardTitle: cardTitle,
-      //     cardDescription: cardDescription,
-      //     newsTitle: newsTitle,
-      //     newsDescription: newsDescription,
-      //     publishDate: publishDate,
-      //     authorName: authorName
-      //   })
-      //   .then((res) => {
-      //     setLoginClass("success-msg")
-      //     newsCreatedMsg.innerHTML = "New news successfully created!"
+      await axiosInstance
+        .put("/news/edit", {
+          newsId: params.newsId,
+          cardTitle: cardTitle,
+          cardDescription: cardDescription,
+          newsTitle: newsTitle,
+          newsDescription: newsDescription,
+          publishDate: publishDate,
+          authorName: authorName
+        })
+        .then((res) => {
+          setLoginClass("success-msg")
+          newsCreatedMsg.innerHTML = "News updated successfully!"
+          newsForm.reset()
 
-      //     // reset the form after 2 seconds
-      //     setTimeout(() => {
-      //       setLoginClass("")
-      //       newsCreatedMsg.innerHTML = ""
-      //       newsForm.reset()
-      //     }, 1000)
-
-        // })
+          // reset the form after 1 seconds
+          setTimeout(() => {
+            newsCreatedMsg.innerHTML = ""
+            setLoginClass("")
+            navigate("/update-news")
+          }, 1000)
+        })
     } catch (error) {
       console.error("Error posting the news:", error)
     }
-
   }
 
   return (
@@ -108,7 +125,6 @@ export default function EditNews() {
                 maxLength={40}
                 onChange={handleChangeCardTitle}
                 value={cardTitle}
-                
               />
             </FloatingLabel>
 
