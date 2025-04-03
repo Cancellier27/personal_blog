@@ -48,6 +48,7 @@ export default function EditNews() {
     fetchUserList()
   }, [])
 
+  
   // Handle input changes
   const handleChangeCardTitle = (e) => {
     setCardTitle(e.target.value)
