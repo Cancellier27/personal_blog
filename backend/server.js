@@ -26,6 +26,30 @@ app.use(cors())
 //   next()
 // })
 
+// connect to PorstgreSQL database
+const db = require('./db');
+
+app.get('/users', async (req, res) => {
+  try {
+    const result = await db.query('SELECT * FROM users');
+    res.json(result.rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Database error');
+  }
+});
+
+app.post('/users/new', async (req, res) => {
+  const { name, email } = req.body;
+  try {
+    const result = await db.query(`INSERT INTO users (username, useremail) VALUES ('${name}', '${email}')`);
+    res.status(201).json(result.rows[0]);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Database error, user not created');
+  }
+})
+
 const loadUsers = () => {
   try {
     if (!fs.existsSync(USERS_FILE)) {
