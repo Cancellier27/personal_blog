@@ -16,6 +16,10 @@
   color: rgb(60, 255, 0);
 }
 
+.text-white {
+  color: #fff;
+}
+
 * {
   margin: 0;
   padding: 0;

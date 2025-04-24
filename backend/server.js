@@ -27,26 +27,27 @@ app.use(cors())
 // })
 
 // connect to PorstgreSQL database
-const db = require('./db');
+const db = require("./db")
 
-app.get('/users', async (req, res) => {
+app.get("/users", async (req, res) => {
   try {
-    const result = await db.query('SELECT * FROM users');
-    res.json(result.rows);
+    const result = await db.query("SELECT * FROM users")
+    res.json(result.rows)
   } catch (err) {
-    console.error(err);
-    res.status(500).send('Database error');
+    console.error(err)
+    res.status(500).send("Database error")
   }
-});
+})
 
-app.post('/users/new', async (req, res) => {
-  const { name, email } = req.body;
+app.post("/users/new", async (req, res) => {
+  const {firstname, surname, useremail, islogged, isadmin, passwordhash} =
+    req.body
   try {
-    const result = await db.query(`INSERT INTO users (username, useremail) VALUES ('${name}', '${email}')`);
-    res.status(201).json(result.rows[0]);
+    const result = await db.query(`INSERT INTO users (firstname, surname, useremail, islogged, isadmin, passwordhash) VALUES ('${firstname}', '${surname}', '${useremail}', ${islogged}, ${isadmin}, '${passwordhash}')`)
+    res.status(201).json(result.rows[0])
   } catch (err) {
-    console.error(err);
-    res.status(500).send('Database error, user not created');
+    console.error(err)
+    res.status(500).send("Database error, user not created")
   }
 })
 
@@ -210,9 +211,6 @@ app.put("/news/edit", (req, res) => {
   fs.writeFileSync("./DB/news.json", JSON.stringify(newsDb, null, 2))
   res.status(200).json({message: "News updated successfully!"})
 })
-
-
-
 
 // Run HTTPS Server on Port 3443
 // https.createServer(sslOptions, app).listen(PORT, () => {
