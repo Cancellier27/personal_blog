@@ -1,6 +1,4 @@
 <h3 align="center">
-    <img alt="Logo" title="Blog Logo" width="150px" src=".github/blogIcon.png">
-    <br><br>
     <b>Personal Blog</b> 
 </h3>
 
