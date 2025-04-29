@@ -45,8 +45,11 @@ export default function LoginPage() {
           // When a user logs in, store their data in local storage:
           loginUser({userKey: res.data.userKey})
 
+          document.querySelector(".loginBtn").disabled = true
+
           setTimeout(() => {
             navigate("/")
+            document.querySelector(".loginBtn").disabled = false
           }, 1500)
         })
     } catch (error) {
@@ -121,7 +124,7 @@ export default function LoginPage() {
                     placeholder="Password"
                   />
                 </FloatingLabel>
-                <Button type="submit">Login</Button>
+                <Button type="submit" className="loginBtn" >Login</Button>
                 <Button
                   variant="success"
                   className="m-2"

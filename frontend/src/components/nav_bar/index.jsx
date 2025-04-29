@@ -26,14 +26,15 @@ export default function NavBar() {
 
     try {
       // check if a user is logged in
-      axiosInstance.get("/userInformation").then((res) => {
-        Object.keys(res.data).forEach((key) => {
+      axiosInstance.get("/users").then((res) => {
+        res.data.forEach((user) => {
+          let key = `${user.firstname}-${user.id}`
           // set the is logged parameter to show more options
           if (key === currentUser.userKey) {
-            setIsLogged([res.data[key].name, true, key])
+            setIsLogged([user.firstname, true, key])
 
             // Set the admin privilege to show more options
-            if (res.data[key].isAdmin) {
+            if (user.isAdmin) {
               setIsAdmin(true)
             }
           }
@@ -49,23 +50,24 @@ export default function NavBar() {
   }
 
   function handleLogOut() {
-    try {
-      axiosInstance
-        .post("/login/out", {
-          user: isLogged[2],
-          loginStatus: false
-        })
-        .then(() => {
-          setIsLogged(["user", false])
-          setIsAdmin(false)
+    logoutUser()
+    // try {
+    //   axiosInstance
+    //     .post("/login/out", {
+    //       user: isLogged[2],
+    //       loginStatus: false
+    //     })
+    //     .then(() => {
+    //       setIsLogged(["user", false])
+    //       setIsAdmin(false)
 
-          // When the user logs out, clear the storage:
-          logoutUser()
-          navigate("/")
-        })
-    } catch (err) {
-      console.error(`An error happened posting the log out`, err)
-    }
+    //       // When the user logs out, clear the storage:
+    //       logoutUser()
+    //       navigate("/")
+    //     })
+    // } catch (err) {
+    //   console.error(`An error happened posting the log out`, err)
+    // }
   }
 
   return (
