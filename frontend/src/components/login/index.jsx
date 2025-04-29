@@ -9,7 +9,18 @@ import {useState} from "react"
 
 export default function LoginPage() {
   const [loginClass, setLoginClass] = useState("")
+  const [loginMsg, setLoginMsg] = useState("")
+
+  const [emailLogin, setEmailLogin] = useState("")
+  const [passwordLogin, setPasswordLogin] = useState("")
+
   const [isRegistering, setIsRegistering] = useState(false)
+  const [firstNameRegister, setFirstNameRegister] = useState("")
+  const [surnameRegister, setSurnameRegister] = useState("")
+  const [emailRegister, setEmailRegister] = useState("")
+  const [passwordRegister, setPasswordRegister] = useState("")
+  const [adminRegister, setAdminRegister] = useState(false)
+
   const navigate = useNavigate()
 
   const loginUser = (userData) => {
@@ -19,28 +30,24 @@ export default function LoginPage() {
   const handleSubmit = async (event) => {
     event.preventDefault()
 
-    const username = document.querySelector(".email-label").value
-    const password = document.querySelector(".password-label").value
-    const loginMsg = document.querySelector(".login-msg")
-
-    // check if a password was inserted
-    if (!password || !username) {
+    // check if a password was inserted and update the login message
+    if (!passwordLogin || !emailLogin) {
       setLoginClass("login-bad-msg")
-      loginMsg.innerHTML = "Invalid email or password. Try again."
+      setLoginMsg("Invalid email or password. Try again.")
       return
     }
-    console.log(username, password)
 
     // Login the user with encrypted password
     try {
       await axiosInstance
         .post("/login", {
-          username,
-          password: password.toString()
+          username: emailLogin,
+          password: passwordLogin.toString()
         })
         .then((res) => {
+          // update the login message
           setLoginClass("login-success-msg")
-          loginMsg.innerHTML = "Success! Redirecting..."
+          setLoginMsg("Success! Redirecting...")
 
           // When a user logs in, store their data in local storage:
           loginUser({userKey: res.data.userKey})
@@ -60,14 +67,10 @@ export default function LoginPage() {
   const handleUpdate = async (event) => {
     event.preventDefault()
 
-    const username = document.querySelector(".email-label").value
-    const password = document.querySelector(".password-label").value
-    const loginMsg = document.querySelector(".login-msg")
-
-    // check if a password was inserted
-    if (!password || !username) {
+    // check if a password was inserted and update the login message
+    if (!passwordLogin || !emailLogin) {
       setLoginClass("error-msg")
-      loginMsg.innerHTML = "Invalid email or password. Try again."
+      setLoginMsg("Invalid email or password. Try again.")
       return
     }
 
@@ -75,20 +78,27 @@ export default function LoginPage() {
     try {
       await axiosInstance
         .post("/login/password-update", {
-          username,
-          password: password.toString()
+          userEmail: emailLogin,
+          password: passwordLogin.toString()
         })
         .then((res) => {
           setLoginClass("success-msg")
-          loginMsg.innerHTML = "Password updated!"
+          setLoginMsg("Password updated!")
 
           setTimeout(() => {
-            loginMsg.innerHTML = ""
+            setLoginMsg("")
           }, 5000)
         })
     } catch (error) {
       console.error("Error trying to update Password!:", error)
     }
+  }
+
+  const handleRegister = async (event) => {
+    event.preventDefault()
+
+
+
   }
 
   return (
@@ -105,6 +115,8 @@ export default function LoginPage() {
                   label="Email address"
                   className="mb-3 text-white"
                   data-bs-theme="dark"
+                  value={emailLogin}
+                  onChange={(e) => setEmailLogin(e.target.value)}
                 >
                   <Form.Control
                     className="email-label"
@@ -117,6 +129,8 @@ export default function LoginPage() {
                   label="Password"
                   data-bs-theme="dark"
                   className="mb-3 text-white"
+                  value={passwordLogin}
+                  onChange={(e) => setPasswordLogin(e.target.value)}
                 >
                   <Form.Control
                     className="password-label"
@@ -124,7 +138,9 @@ export default function LoginPage() {
                     placeholder="Password"
                   />
                 </FloatingLabel>
-                <Button type="submit" className="loginBtn" >Login</Button>
+                <Button type="submit" className="loginBtn">
+                  Login
+                </Button>
                 <Button
                   variant="success"
                   className="m-2"
@@ -140,7 +156,7 @@ export default function LoginPage() {
                 </Button>
               </Form>
 
-              <p className={`login-msg ` + loginClass}> </p>
+              <p className={`login-msg ` + loginClass}>{loginMsg}</p>
             </div>
           )}
 
@@ -150,36 +166,39 @@ export default function LoginPage() {
                 <Form.Label htmlFor="inputPassword5">Login</Form.Label>
 
                 <FloatingLabel
-                  controlId="floatingInput"
                   label="First Name"
                   className="mb-3 text-white"
                   data-bs-theme="dark"
+                  value={firstNameRegister}
+                  onChange={(e) => setFirstNameRegister(e.target.value)}
                 >
                   <Form.Control
                     className="register-name-label"
-                    type="email"
+                    type="text"
                     placeholder="name@example.com"
                   />
                 </FloatingLabel>
 
                 <FloatingLabel
-                  controlId="floatingInput"
                   label="Surname"
                   className="mb-3 text-white"
                   data-bs-theme="dark"
+                  value={surnameRegister}
+                  onChange={(e) => setSurnameRegister(e.target.value)}
                 >
                   <Form.Control
                     className="register-surname-label"
-                    type="email"
+                    type="text"
                     placeholder="name@example.com"
                   />
                 </FloatingLabel>
 
                 <FloatingLabel
-                  controlId="floatingInput"
                   label="Email address"
                   className="mb-3 text-white"
                   data-bs-theme="dark"
+                  value={emailRegister}
+                  onChange={(e) => setEmailRegister(e.target.value)}
                 >
                   <Form.Control
                     className="register-email-label"
@@ -193,6 +212,8 @@ export default function LoginPage() {
                   label="Password"
                   data-bs-theme="dark"
                   className="mb-3 text-white"
+                  value={passwordRegister}
+                  onChange={(e) => setPasswordRegister(e.target.value)}
                 >
                   <Form.Control
                     className="register-password-label"
@@ -201,14 +222,18 @@ export default function LoginPage() {
                   />
                 </FloatingLabel>
 
-                <Form.Check // prettier-ignore
+                <Form.Check
                   type="switch"
                   id="custom-switch"
                   label="Admin Privileges"
-                  className="mb-3 text-white"
+                  className="mb-3 text-white register-password-switch"
+                  checked={AdminRegister}
+                  onChange={(e) => setAdminRegister(e.target.checked)}
                 />
 
-                <Button type="submit">Register</Button>
+                <Button type="submit" onClick={handleRegister}>
+                  Register
+                </Button>
                 <Button
                   variant="warning"
                   className="m-2"

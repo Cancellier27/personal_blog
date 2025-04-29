@@ -51,23 +51,23 @@ export default function NavBar() {
 
   function handleLogOut() {
     logoutUser()
-    // try {
-    //   axiosInstance
-    //     .post("/login/out", {
-    //       user: isLogged[2],
-    //       loginStatus: false
-    //     })
-    //     .then(() => {
-    //       setIsLogged(["user", false])
-    //       setIsAdmin(false)
+    let idNumber = Number(isLogged[2].split("-")[1])
+    try {
+      axiosInstance
+        .post("/login/out", {
+          id: idNumber
+        })
+        .then(() => {
+          setIsLogged(["user", false])
+          setIsAdmin(false)
 
-    //       // When the user logs out, clear the storage:
-    //       logoutUser()
-    //       navigate("/")
-    //     })
-    // } catch (err) {
-    //   console.error(`An error happened posting the log out`, err)
-    // }
+          // When the user logs out, clear the storage:
+          logoutUser()
+          navigate("/")
+        })
+    } catch (err) {
+      console.error(`An error happened posting the log out`, err)
+    }
   }
 
   return (
