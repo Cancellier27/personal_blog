@@ -51,18 +51,14 @@ app.post("/users/new", async (req, res) => {
   }
 })
 
-const loadUsers = () => {
-  try {
-    if (!fs.existsSync(USERS_FILE)) {
-      // Create an empty file if it doesn't exist
-      fs.writeFileSync(USERS_FILE, JSON.stringify([]))
+const loadUsers = async () => {
+    try {
+      const result = await db.query("SELECT * FROM users")
+      return result.rows 
+    } catch (err) {
+      console.error(err)
+      res.status(500).send("Database error")
     }
-    const data = fs.readFileSync(USERS_FILE)
-    return JSON.parse(data)
-  } catch (error) {
-    console.error("Error loading users:", error)
-    return [] // Return empty array on error
-  }
 }
 
 // Save users to JSON file
@@ -119,27 +115,28 @@ app.post("/login", async (req, res) => {
       return res.status(400).json({error: "Email or password are required"})
     }
 
-    let users = loadUsers()
-    const userKey = Object.keys(users).find(
-      (key) => users[key].email === username
+    let users = await loadUsers()
+    console.log(users)
+    const user = users.find(
+      (user) => user.useremail === username
     )
-    if (!userKey) {
+
+    if (!user) {
       return res.status(400).json({error: "Invalid email or password"})
     }
 
-    const user = users[userKey]
-    const isMatch = await bcrypt.compare(password, user.password)
+    const isMatch = await bcrypt.compare(password, user.passwordhash)
     if (!isMatch) {
       return res.status(400).json({error: "Invalid email or password"})
     }
 
-    users[userKey].isLogged = true
-    saveUsers(users)
+    // update the islogged status in the database
+    await db.query(`UPDATE users SET islogged = true WHERE id = ${user.id};`)
 
     res.status(200).json({
       message: "Login successful",
-      userKey: userKey
-    })
+      userKey: `${user.firstname}-${user.id}`
+        })
   } catch (error) {
     res.status(500).json({error: "Internal Server Error"})
   }

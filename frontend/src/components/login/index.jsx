@@ -29,6 +29,7 @@ export default function LoginPage() {
       loginMsg.innerHTML = "Invalid email or password. Try again."
       return
     }
+    console.log(username, password)
 
     // Login the user with encrypted password
     try {
