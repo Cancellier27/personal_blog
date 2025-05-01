@@ -1,10 +1,5 @@
 const express = require("express")
 const cors = require("cors")
-const fs = require("fs")
-const https = require("https")
-const usersDb = require("./DB/users.json")
-const USERS_FILE = "./DB/users.json"
-const newsDb = require("./DB/news.json")
 const bcrypt = require("bcrypt")
 const app = express()
 const PORT = process.env.PORT || 8000
@@ -13,21 +8,8 @@ const saltRounds = 10
 app.use(express.json())
 app.use(cors())
 
-// const sslOptions = {
-//   key: fs.readFileSync("./key.pem"), // Load generated key
-//   cert: fs.readFileSync("./cert.pem") // Load generated certificate
-// }
-
-// Middleware to force HTTPS
-// app.use((req, res, next) => {
-//   if (!req.secure && req.headers["x-forwarded-proto"] !== "https") {
-//     return res.redirect("https://" + req.headers.host + req.url)
-//   }
-//   next()
-// })
-
 // connect to PorstgreSQL database connect
-const db = require("./db")
+const db = require("./postgre_connect")
 
 app.get("/usersList", async (req, res) => {
   try {
@@ -68,11 +50,6 @@ const loadUsers = async () => {
   }
 }
 
-// // Save users to JSON file
-// const saveUsers = (users) => {
-//   fs.writeFileSync(USERS_FILE, JSON.stringify(users, null, 2))
-// }
-
 // update the password the user based on the db list
 app.post("/login/password-update", async (req, res) => {
   try {
@@ -110,21 +87,20 @@ app.post("/login/password-update", async (req, res) => {
 
 // Login the user based on the db list
 app.post("/login", async (req, res) => {
-
   try {
     const {username, password} = req.body
 
     if (!password || !username) {
       return res.status(400).json({error: "Email or password are required"})
     }
-    
+
     let users = await loadUsers()
     const user = users.find((user) => user.user_email === username)
-    
+
     if (!user) {
       return res.status(400).json({error: "Invalid email or password"})
     }
-    
+
     const isMatch = await bcrypt.compare(password, user.password_hash)
     if (!isMatch) {
       return res.status(400).json({error: "Invalid email or password"})
@@ -160,63 +136,61 @@ app.post("/login/out", async (req, res) => {
 })
 
 // to get the news list
-app.get("/newsInformation", (req, res) => {
-  res.json(newsDb)
+app.get("/newsInformation", async (req, res) => {
+  try {
+    const result = await db.query("SELECT * FROM news")
+    res.json(result.rows)
+  } catch (err) {
+    console.error(err)
+    res.status(500).send("b. Database error while getting news list")
+  }
 })
 
 // create a new news
-app.post("/news/create", (req, res) => {
-  const entries = Object.keys(newsDb)
-  const [last] = entries.slice(-1)
-  // create the new news id
-  const newNewsId = `${last.split("-")[0]}-${Number(last.split("-")[1]) + 1}`
+app.post("/news/create", async (req, res) => {
+  try {
+    const news = req.body
 
-  newsDb[newNewsId] = {
-    author: req.body.authorName,
-    publishDate: req.body.publishDate,
-    card: {
-      title: req.body.cardTitle,
-      description: req.body.cardDescription,
-      thumbnail: "Path-to-card-image",
-      alt: "One Piece Image"
-    },
-    news: {
-      title: req.body.newsTitle,
-      description: req.body.newsDescription,
-      image: "Path-to-news-image",
-      alt: "One Piece Image"
-    }
+    // update the is_logged status in the database
+    await db.query(
+      `INSERT INTO news (author, card_title, card_description, card_img, card_img_alt, news_title, news_description, news_img, news_img_alt, fk_user_id, publish_date)
+      VALUES ('${news.author}', '${news.card_title}', '${news.card_description}', '${news.card_img}', '${news.card_img_alt}', '${news.news_title}','${news.news_description}','${news.news_img}', '${news.news_img_alt}', ${news.fk_user_id}, '${news.publish_date}');`
+    )
+
+    res.status(200).json({
+      message: "News successfully created"
+    })
+  } catch (error) {
+    res
+      .status(500)
+      .json({error: "Internal server error while creating new message .b"})
   }
-
-  fs.writeFileSync("./DB/news.json", JSON.stringify(newsDb, null, 2))
-  res.status(201).json({message: "News created successfully!"})
 })
 
 // delete the news
-app.delete("/news/delete/:id", (req, res) => {
-  const newsId = req.params.id
-  delete newsDb[newsId]
-  console.log(newsDb)
+app.delete("/news/delete/:id", async (req, res) => {
+  const newsId = Number(req.params.id)
 
-  fs.writeFileSync("./DB/news.json", JSON.stringify(newsDb, null, 2))
-  res.status(200).json({message: "News deleted successfully from backend!"})
+  await db.query(`DELETE FROM news WHERE news_id = ${newsId};`)
+
+  res.status(200).json({message: "b. News deleted successfully from backend!"})
 })
 
-app.put("/news/edit", (req, res) => {
-  const newsId = req.body.newsId
-  console.log(req.body)
-  newsDb[newsId].card.title = req.body.cardTitle
-  newsDb[newsId].card.description = req.body.cardDescription
-  newsDb[newsId].news.title = req.body.newsTitle
-  newsDb[newsId].news.description = req.body.newsDescription
+app.put("/news/edit", async (req, res) => {
+  const {
+    news_id,
+    card_title,
+    card_description,
+    news_title,
+    news_description,
+    publish_date
+  } = req.body
 
-  fs.writeFileSync("./DB/news.json", JSON.stringify(newsDb, null, 2))
-  res.status(200).json({message: "News updated successfully!"})
+  await db.query(`UPDATE news 
+    SET card_title = '${card_title}', card_description = '${card_description}', news_title = '${news_title}', news_description = '${news_description}', publish_date = '${publish_date}' 
+    WHERE news_id = ${news_id};`)
+
+  res.status(200).json({message: "b. News updated successfully!"})
 })
-
-// Run HTTPS Server on Port 3443
-// https.createServer(sslOptions, app).listen(PORT, () => {
-//   console.log(`Secure Express server running at https://localhost:${PORT}`)
-// })
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`))
