@@ -22,10 +22,10 @@
   font-weight: bold;
 }
 
-.success-msg {
-  color: greenyellow;
+.login-success-msg {
+  color: rgb(159, 255, 14);
 }
 
-.error-msg {
+.login-error-msg {
   color: red;
 }

@@ -10,6 +10,7 @@ import {useState} from "react"
 export default function LoginPage() {
   const [loginClass, setLoginClass] = useState("")
   const [loginMsg, setLoginMsg] = useState("")
+  const [registerMsg, setRegisterMsg] = useState("")
 
   const [emailLogin, setEmailLogin] = useState("")
   const [passwordLogin, setPasswordLogin] = useState("")
@@ -23,7 +24,7 @@ export default function LoginPage() {
 
   const navigate = useNavigate()
 
-  const loginUser = (userData) => {
+  const loginUserOnLocalStorage = (userData) => {
     localStorage.setItem("user", JSON.stringify(userData))
   }
 
@@ -50,7 +51,7 @@ export default function LoginPage() {
           setLoginMsg("Success! Redirecting...")
 
           // When a user logs in, store their data in local storage:
-          loginUser({userKey: res.data.userKey})
+          loginUserOnLocalStorage({userKey: res.data.userKey})
 
           document.querySelector(".loginBtn").disabled = true
 
@@ -82,7 +83,7 @@ export default function LoginPage() {
           password: passwordLogin.toString()
         })
         .then((res) => {
-          setLoginClass("success-msg")
+          setLoginClass("login-success-msg")
           setLoginMsg("Password updated!")
 
           setTimeout(() => {
@@ -97,8 +98,42 @@ export default function LoginPage() {
   const handleRegister = async (event) => {
     event.preventDefault()
 
+    // firstName, surname, userEmail, isLogged, isAdmin, passwordHash
+    if (
+      !firstNameRegister ||
+      !surnameRegister ||
+      !emailRegister ||
+      !passwordRegister
+    ) {
+      setLoginClass("login-bad-msg")
+      setRegisterMsg("Please fill all the areas. Try again.")
+      return
+    }
 
+    try {
+      await axiosInstance
+        .post("/login/register", {
+          firstName: firstNameRegister,
+          surname: surnameRegister,
+          userEmail: emailRegister,
+          isLogged: false,
+          isAdmin: adminRegister,
+          passwordHash: passwordRegister.toString()
+        })
+        .then((res) => {
+          // update the login message
+          setLoginClass("login-success-msg")
+          setLoginMsg("User successfully registered!")
+          setIsRegistering(false)
+          setRegisterMsg("")
 
+          setTimeout(() => {
+            setLoginMsg("")
+          }, 5000)
+        })
+    } catch (error) {
+      console.error("Error while Login!:", error)
+    }
   }
 
   return (
@@ -227,7 +262,7 @@ export default function LoginPage() {
                   id="custom-switch"
                   label="Admin Privileges"
                   className="mb-3 text-white register-password-switch"
-                  checked={AdminRegister}
+                  checked={adminRegister}
                   onChange={(e) => setAdminRegister(e.target.checked)}
                 />
 
@@ -243,7 +278,7 @@ export default function LoginPage() {
                 </Button>
               </Form>
 
-              <p className={`login-msg ` + loginClass}> </p>
+              <p className={`login-msg ` + loginClass}>{registerMsg}</p>
             </div>
           )}
         </div>

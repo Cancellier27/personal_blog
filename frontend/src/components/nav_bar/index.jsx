@@ -26,15 +26,15 @@ export default function NavBar() {
 
     try {
       // check if a user is logged in
-      axiosInstance.get("/users").then((res) => {
+      axiosInstance.get("/usersList").then((res) => {
         res.data.forEach((user) => {
-          let key = `${user.firstname}-${user.id}`
+          let key = `${user.first_name}-${user.user_id}`
           // set the is logged parameter to show more options
           if (key === currentUser.userKey) {
-            setIsLogged([user.firstname, true, key])
+            setIsLogged([user.first_name, true, key])
 
             // Set the admin privilege to show more options
-            if (user.isAdmin) {
+            if (user.is_Admin) {
               setIsAdmin(true)
             }
           }
@@ -50,7 +50,7 @@ export default function NavBar() {
   }
 
   function handleLogOut() {
-    logoutUser()
+    
     let idNumber = Number(isLogged[2].split("-")[1])
     try {
       axiosInstance
@@ -60,7 +60,7 @@ export default function NavBar() {
         .then(() => {
           setIsLogged(["user", false])
           setIsAdmin(false)
-
+          logoutUser()
           // When the user logs out, clear the storage:
           logoutUser()
           navigate("/")
@@ -116,7 +116,7 @@ export default function NavBar() {
                 </li>
                 <li className="nav-item">
                   <FontAwesomeIcon icon={faUser} className="text-green" />
-                  <p className="text-green"> {isLogged[0]} logged in</p>
+                  <p className="text-green"> {isLogged[0]} is online</p>
                 </li>
               </>
             )}

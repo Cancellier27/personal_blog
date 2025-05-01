@@ -29,7 +29,7 @@ app.use(cors())
 // connect to PorstgreSQL database connect
 const db = require("./db")
 
-app.get("/users", async (req, res) => {
+app.get("/usersList", async (req, res) => {
   try {
     const result = await db.query("SELECT * FROM users")
     res.json(result.rows)
@@ -39,14 +39,19 @@ app.get("/users", async (req, res) => {
   }
 })
 
-app.post("/users/new", async (req, res) => {
-  const {firstname, surname, useremail, islogged, isadmin, passwordhash} =
+app.post("/login/register", async (req, res) => {
+  const {firstName, surname, userEmail, isLogged, isAdmin, passwordHash} =
     req.body
   try {
-    const result = await db.query(
-      `INSERT INTO users (firstname, surname, useremail, islogged, isadmin, passwordhash) VALUES ('${firstname}', '${surname}', '${useremail}', ${islogged}, ${isadmin}, '${passwordhash}')`
-    )
-    res.status(201).json(result.rows[0])
+    bcrypt.genSalt(saltRounds, async function (err, salt) {
+      bcrypt.hash(passwordHash, salt, async function (err, hash) {
+        // store new user with hashed password
+        const result = await db.query(
+          `INSERT INTO users (first_name, surname, user_email, is_logged, is_admin, password_hash) VALUES ('${firstName}', '${surname}', '${userEmail}', ${isLogged}, ${isAdmin}, '${hash}')`
+        )
+        res.status(201).json(result.rows[0])
+      })
+    })
   } catch (err) {
     console.error(err)
     res.status(500).send("Database error, user not created")
@@ -63,37 +68,32 @@ const loadUsers = async () => {
   }
 }
 
-// Save users to JSON file
-const saveUsers = (users) => {
-  fs.writeFileSync(USERS_FILE, JSON.stringify(users, null, 2))
-}
-
-// to get the users list
-app.get("/userInformation", (req, res) => {
-  res.json(usersDb)
-})
+// // Save users to JSON file
+// const saveUsers = (users) => {
+//   fs.writeFileSync(USERS_FILE, JSON.stringify(users, null, 2))
+// }
 
 // update the password the user based on the db list
 app.post("/login/password-update", async (req, res) => {
   try {
     const {userEmail, password} = req.body
-    
+
     if (!password || !userEmail) {
       return res.status(400).json({error: "Email or password are required"})
     }
-    
+
     let users = await loadUsers()
-    const user = users.find((user) => user.useremail === userEmail)
+    const user = users.find((user) => user.user_email === userEmail)
 
     if (!user) {
       return res.status(400).json({error: "Invalid email or password"})
     }
-    
+
     bcrypt.genSalt(saltRounds, async function (err, salt) {
       bcrypt.hash(password, salt, async function (err, hash) {
         // Store new hash in your password DB.
         await db.query(
-          `UPDATE users SET passwordhash = '${hash}' WHERE useremail = '${userEmail}';`
+          `UPDATE users SET password_hash = '${hash}' WHERE user_email = '${userEmail}';`
         )
       })
     })
@@ -110,32 +110,34 @@ app.post("/login/password-update", async (req, res) => {
 
 // Login the user based on the db list
 app.post("/login", async (req, res) => {
+
   try {
     const {username, password} = req.body
 
     if (!password || !username) {
       return res.status(400).json({error: "Email or password are required"})
     }
-
+    
     let users = await loadUsers()
-    console.log(users)
-    const user = users.find((user) => user.useremail === username)
-
+    const user = users.find((user) => user.user_email === username)
+    
     if (!user) {
       return res.status(400).json({error: "Invalid email or password"})
     }
-
-    const isMatch = await bcrypt.compare(password, user.passwordhash)
+    
+    const isMatch = await bcrypt.compare(password, user.password_hash)
     if (!isMatch) {
       return res.status(400).json({error: "Invalid email or password"})
     }
 
-    // update the islogged status in the database
-    await db.query(`UPDATE users SET islogged = true WHERE id = ${user.id};`)
+    // update the is_logged status in the database
+    await db.query(
+      `UPDATE users SET is_logged = true WHERE user_id = ${user.user_id};`
+    )
 
     res.status(200).json({
       message: "Login successful",
-      userKey: `${user.firstname}-${user.id}`
+      userKey: `${user.first_name}-${user.user_id}`
     })
   } catch (error) {
     res.status(500).json({error: "Internal Server Error"})
@@ -152,7 +154,7 @@ app.post("/login/out", async (req, res) => {
   }
 
   // update database
-  await db.query(`UPDATE users SET islogged = false WHERE id = ${id};`)
+  await db.query(`UPDATE users SET is_logged = false WHERE user_id = ${id};`)
   // send success response to frontend
   res.status(201).json(`User logged out successfully!`)
 })

@@ -20,7 +20,7 @@ export function getUserLogged() {
 // get users
 export async function getUsers() {
   try {
-    const usersInformation = await axiosInstance.get("/userInformation")
+    const usersInformation = await axiosInstance.get("/usersList")
     return usersInformation.data
   } catch (error) {
     console.error("Error fetching the user list:", error)
