@@ -12,6 +12,8 @@ import Button from "react-bootstrap/Button"
 export default function EditNews() {
   const [authorName, setAuthorName] = useState("")
   const [loginClass, setLoginClass] = useState("")
+  const [updateMsg, setUpdateMsg] = useState("")
+
   const [cardTitle, setCardTitle] = useState()
   const [cardDescription, setCardDescription] = useState()
   const [newsTitle, setNewsTitle] = useState()
@@ -23,45 +25,18 @@ export default function EditNews() {
   useEffect(() => {
     async function fetchNewsList() {
       const newsInformation = await getNews()
-      const news = newsInformation[params.newsId]
+      const news = newsInformation.filter((news) => news.news_id === Number(params.newsId))[0]
 
-      setCardTitle(news.card.title)
-      setCardDescription(news.card.description)
-      setNewsTitle(news.news.title)
-      setNewsDescription(news.news.description)
-    }
-
-    async function fetchUserList() {
-      const userInformation = await getUsers()
-      const currentUser = getUserLogged()
-
-      Object.keys(userInformation).forEach((key) => {
-        if (key === currentUser.userKey) {
-          setAuthorName(
-            `${userInformation[key].name} ${userInformation[key].surname}`
-          )
-        }
-      })
+      setCardTitle(news.card_title)
+      setCardDescription(news.card_description)
+      setNewsTitle(news.news_title)
+      setNewsDescription(news.news_description)
+      setAuthorName(news.author)
     }
 
     fetchNewsList()
-    fetchUserList()
   }, [])
 
-  
-  // Handle input changes
-  const handleChangeCardTitle = (e) => {
-    setCardTitle(e.target.value)
-  }
-  const handleChangeCardDesc = (e) => {
-    setCardDescription(e.target.value)
-  }
-  const handleChangeNewsTitle = (e) => {
-    setNewsTitle(e.target.value)
-  }
-  const handleChangeNewsDesc = (e) => {
-    setNewsDescription(e.target.value)
-  }
 
   async function handleSubmit(event) {
     event.preventDefault()
@@ -71,29 +46,30 @@ export default function EditNews() {
     )
     if (!areYouSureCheck) return
 
-    const newsCreatedMsg = document.querySelector(".news-created-msg")
     const newsForm = document.querySelector(".news-form")
     const publishDate = getTodayDate()
 
     try {
       await axiosInstance
         .put("/news/edit", {
-          newsId: params.newsId,
-          cardTitle: cardTitle,
-          cardDescription: cardDescription,
-          newsTitle: newsTitle,
-          newsDescription: newsDescription,
-          publishDate: publishDate,
-          authorName: authorName
+          news_id: params.newsId,
+          card_title: cardTitle,
+          card_description: cardDescription,
+          news_title: newsTitle,
+          news_description: newsDescription,
+          publish_date: publishDate,
+          author: authorName
         })
         .then((res) => {
           setLoginClass("success-msg")
-          newsCreatedMsg.innerHTML = "News updated successfully!"
+          setUpdateMsg("News updated successfully!")
           newsForm.reset()
 
+          document.querySelector(".updateNewsBtn").disabled = true
           // reset the form after 1 seconds
           setTimeout(() => {
-            newsCreatedMsg.innerHTML = ""
+            document.querySelector(".updateNewsBtn").disabled = false
+            setUpdateMsg("")
             setLoginClass("")
             navigate("/update-news")
           }, 1000)
@@ -124,7 +100,7 @@ export default function EditNews() {
                 className="card-title-input"
                 placeholder="Card Title (max 40 char)"
                 maxLength={40}
-                onChange={handleChangeCardTitle}
+                onChange={(e) => setCardTitle(e.target.value)}
                 value={cardTitle}
               />
             </FloatingLabel>
@@ -142,7 +118,7 @@ export default function EditNews() {
                 className="card-description-input"
                 placeholder="Card news brief description"
                 maxLength={150}
-                onChange={handleChangeCardDesc}
+                onChange={(e) => setCardDescription(e.target.value)}
                 value={cardDescription}
               />
             </FloatingLabel>
@@ -168,7 +144,7 @@ export default function EditNews() {
                 className="news-title-input"
                 placeholder="News Title"
                 maxLength={100}
-                onChange={handleChangeNewsTitle}
+                onChange={(e) => setNewsTitle(e.target.value)}
                 value={newsTitle}
               />
             </FloatingLabel>
@@ -184,7 +160,7 @@ export default function EditNews() {
                 className="news-description-input"
                 placeholder="News description"
                 style={{height: "100px"}}
-                onChange={handleChangeNewsDesc}
+                onChange={(e) => setNewsDescription(e.target.value)}
                 value={newsDescription}
               />
             </FloatingLabel>
@@ -196,8 +172,8 @@ export default function EditNews() {
               <Form.Label>Upload images</Form.Label>
               <Form.Control type="file" multiple />
             </Form.Group>
-            <hr></hr>
-            <Button type="Submit">Submit Form</Button>
+            <hr></hr> 
+            <Button type="Submit" className="updateNewsBtn">Submit Form</Button>
           </Form>
           <p className={`news-created-msg ` + loginClass}> </p>
         </div>

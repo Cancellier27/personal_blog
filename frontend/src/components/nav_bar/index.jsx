@@ -30,11 +30,11 @@ export default function NavBar() {
         res.data.forEach((user) => {
           let key = `${user.first_name}-${user.user_id}`
           // set the is logged parameter to show more options
-          if (key === currentUser.userKey) {
+          if (key === currentUser) {
             setIsLogged([user.first_name, true, key])
 
             // Set the admin privilege to show more options
-            if (user.is_Admin) {
+            if (user.is_admin) {
               setIsAdmin(true)
             }
           }

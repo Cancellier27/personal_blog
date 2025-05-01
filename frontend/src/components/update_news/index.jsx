@@ -5,23 +5,23 @@ import axiosInstance from "../../tools/axios_instance"
 import { useEffect, useState } from "react"
 
 export default function UpdateNews() {
-  const [news, setNews] = useState([])
+  const [newsData, setNewsData] = useState([])
 
   useEffect(() => {
     const getNews = async () => {
       try {
         const res = await axiosInstance.get("/newsInformation")
-        let dataArr = Object.keys(res.data).map((key) => [key, res.data[key]])
-        setNews(dataArr)
+        setNewsData([...res.data])
       } catch (error) {
-        console.error("Error while fetching the news data!", error)
+        console.error("f. Error while fetching the news data!", error)
       }
     }
     getNews()
   }, [])
 
+  // update the frontend state when a news is deleted
   const handleDelete = (deletedId) => {
-    setNews((prevNews) => prevNews.filter(([id]) => id !== deletedId))
+    setNewsData(newsData.filter((news) => news.news_id !== deletedId))
   }
 
   return (
@@ -31,12 +31,12 @@ export default function UpdateNews() {
         <h2>Update news:</h2>
 
         <div className="update-card-main-container">
-          {news.map(([id, item]) => (
+          {newsData.map((news, index) => (
             <UpdateCard
-              key={id}
-              cardTitle={item.card.title}
-              newsTitle={item.news.title}
-              newsId={id}
+              key={news.news_id + "-" + index}
+              cardTitle={news.card_title}
+              newsTitle={news.news_title}
+              newsId={news.news_id}
               onDelete={handleDelete}
             />
           ))}

@@ -33,7 +33,7 @@ export default function LoginPage() {
 
     // check if a password was inserted and update the login message
     if (!passwordLogin || !emailLogin) {
-      setLoginClass("login-bad-msg")
+      setLoginClass("error-msg")
       setLoginMsg("Invalid email or password. Try again.")
       return
     }
@@ -47,11 +47,11 @@ export default function LoginPage() {
         })
         .then((res) => {
           // update the login message
-          setLoginClass("login-success-msg")
+          setLoginClass("success-msg")
           setLoginMsg("Success! Redirecting...")
 
           // When a user logs in, store their data in local storage:
-          loginUserOnLocalStorage({userKey: res.data.userKey})
+          loginUserOnLocalStorage(res.data.userKey)
 
           document.querySelector(".loginBtn").disabled = true
 
@@ -83,7 +83,7 @@ export default function LoginPage() {
           password: passwordLogin.toString()
         })
         .then((res) => {
-          setLoginClass("login-success-msg")
+          setLoginClass("success-msg")
           setLoginMsg("Password updated!")
 
           setTimeout(() => {
@@ -105,7 +105,7 @@ export default function LoginPage() {
       !emailRegister ||
       !passwordRegister
     ) {
-      setLoginClass("login-bad-msg")
+      setLoginClass("error-msg")
       setRegisterMsg("Please fill all the areas. Try again.")
       return
     }
@@ -122,7 +122,7 @@ export default function LoginPage() {
         })
         .then((res) => {
           // update the login message
-          setLoginClass("login-success-msg")
+          setLoginClass("success-msg")
           setLoginMsg("User successfully registered!")
           setIsRegistering(false)
           setRegisterMsg("")

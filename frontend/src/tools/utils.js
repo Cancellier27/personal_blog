@@ -4,12 +4,24 @@ export function getTodayDate() {
   let today = new Date()
 
   return today
-    .toLocaleDateString("en-US", {
+    .toLocaleDateString("en-GB", {
       month: "short",
       day: "2-digit",
       year: "numeric"
     })
     .replace(",", "")
+}
+
+export function formatDate(date) {
+  const months = [
+    "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+  ]
+  const year = date.slice(0, 4)
+  const month = months[Number(date.slice(5, 7)) - 1]
+  const day = date.slice(8, 10)
+
+  return `${day} ${month} ${year}`
 }
 
 export function getUserLogged() {

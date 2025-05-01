@@ -20,6 +20,14 @@
   color: #fff;
 }
 
+.success-msg {
+  color: rgb(159, 255, 14);
+}
+
+.error-msg {
+  color: red;
+}
+
 * {
   margin: 0;
   padding: 0;
