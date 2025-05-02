@@ -79,14 +79,14 @@ export default function NavBar() {
             <NavLink to="/" className="nav-item">
               <FontAwesomeIcon className="icon" icon={faHouse} /> <p>Home</p>
             </NavLink>
-            <li className="nav-item">
+            <NavLink to="/search-news" className="nav-item">
               <FontAwesomeIcon icon={faMagnifyingGlass} className="icon" />
               <p>Search</p>
-            </li>
-            <a className="nav-item">
+            </NavLink>
+            <NavLink to="/" className="nav-item">
               <FontAwesomeIcon icon={faPaperPlane} className="icon" />
               <p>News</p>
-            </a>
+            </NavLink>
             <NavLink to="/login" className="nav-item">
               <FontAwesomeIcon icon={faRightToBracket} className="icon" />
               <p>Login</p>
@@ -123,7 +123,7 @@ export default function NavBar() {
           </ul>
         </nav>
       </div>
-      <footer>All rights reserved &#169; </footer>
+      <footer className="text-white">All rights reserved &#169; </footer>
     </aside>
   )
 }
