@@ -57,5 +57,3 @@ npm start
 <img alt="GitHub language count" src="/loading.gif">
 </h1>
 
-
-

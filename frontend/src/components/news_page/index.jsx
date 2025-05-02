@@ -6,7 +6,7 @@ import {useEffect, useState} from "react"
 import axiosInstance from "../../tools/axios_instance"
 
 export default function NewsPage() {
-  const [newsData, setNewsData] = useState(false)
+  const [newsData, setNewsData] = useState()
   const params = useParams()
 
   useEffect(() => {
@@ -14,17 +14,18 @@ export default function NewsPage() {
       try {
         // fetch information from the news database
         await axiosInstance.get("/newsInformation").then((res) => {
-          Object.keys(res.data).forEach((key) => {
-            let formattedTitle = res.data[key].card.title.split(" ").join("-")
+          // const newsId = newsData.card_title.split(" ").join("-") + "-" + newsData.news_id
+          res.data.forEach((news) => {
+            let newsId = news.card_title.split(" ").join("-") + "-" + news.news_id
 
             // Check if the data matches the params passed in the URL
-            if (formattedTitle === params.newsId) {
-              setNewsData(res.data[key])
+            if (newsId === params.newsId) {
+              setNewsData(news)
             }
           })
         })
       } catch (err) {
-        console.error(`An error happened fetching the news list`, err)
+        console.error(`f. An error happened fetching the news list`, err)
       }
     }
 
@@ -39,16 +40,16 @@ export default function NewsPage() {
         <div id="main-section-outermost-container">
           <header className="news-selection-header">
             <h1 className="news-selection-title news-title">
-              {newsData.news.title}
+              {newsData.news_title}
             </h1>
             <div className="news-selection-author-data">
               <p>{`BY ${newsData.author}`}</p>
-              <p>{`POSTED: ${newsData.publishDate}`}</p>
+              <p>{`POSTED: ${newsData.publish_date}`}</p>
             </div>
           </header>
           <main className="news-selection-text-container">
-            <img src={One_Piece} alt={newsData.news.alt} />
-            <p>{newsData.news.description}</p>
+            <img src={One_Piece} alt={newsData.news_img_alt} />
+            <p>{newsData.news_description}</p>
           </main>
           <footer className="news-selection-footer-container">
             <h1 className="title-font">FCC</h1>

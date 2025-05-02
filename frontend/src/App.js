@@ -10,20 +10,13 @@ function App() {
   const [news, setNews] = useState([])
 
   useEffect(() => {
-    // empty the news array
-    setNews([])
     try {
       // check if a user is logged in
       axiosInstance.get("/newsInformation").then((res) => {
-        let dataArr = []
-        Object.keys(res.data).forEach((key) => {
-          // create a news array with the updated news from backend
-          dataArr.push(res.data[key])
-        })
-        setNews(dataArr)
+        setNews([...res.data])
       })
     } catch (err) {
-      console.error(`An error happened fetching the news list`, err)
+      console.error(`F. An error happened fetching the news list`, err)
     }
   }, [])
 
@@ -33,16 +26,18 @@ function App() {
       <div id="main-section-outermost-container">
         <section id="main-section-container">
           <h1 className="main-title title-font">Latest News</h1>
-          {news.map((item, index) => {
+          {news.map((newsData, index) => {
+            const newsId = newsData.card_title.split(" ").join("-") + "-" + newsData.news_id
+
             return (
               <NewsCard
-              title={item.card.title}
-              text={item.card.description}
-              image={One_Piece}
-              imgAlt={item.card.title}
-              newsId={item.card.title.split(" ").join("-")}
-              key={index}
-            />
+                title={newsData.card_title}
+                text={newsData.card_description}
+                image={One_Piece}
+                imgAlt={newsData.card_img_alt}
+                newsId={newsId}
+                key={index}
+              />
             )
           })}
         </section>

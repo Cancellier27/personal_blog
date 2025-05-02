@@ -26,14 +26,15 @@ export default function NavBar() {
 
     try {
       // check if a user is logged in
-      axiosInstance.get("/userInformation").then((res) => {
-        Object.keys(res.data).forEach((key) => {
+      axiosInstance.get("/usersList").then((res) => {
+        res.data.forEach((user) => {
+          let key = `${user.first_name}-${user.user_id}`
           // set the is logged parameter to show more options
-          if (key === currentUser.userKey) {
-            setIsLogged([res.data[key].name, true, key])
+          if (key === currentUser) {
+            setIsLogged([user.first_name, true, key])
 
             // Set the admin privilege to show more options
-            if (res.data[key].isAdmin) {
+            if (user.is_admin) {
               setIsAdmin(true)
             }
           }
@@ -49,16 +50,17 @@ export default function NavBar() {
   }
 
   function handleLogOut() {
+    
+    let idNumber = Number(isLogged[2].split("-")[1])
     try {
       axiosInstance
         .post("/login/out", {
-          user: isLogged[2],
-          loginStatus: false
+          id: idNumber
         })
         .then(() => {
           setIsLogged(["user", false])
           setIsAdmin(false)
-
+          logoutUser()
           // When the user logs out, clear the storage:
           logoutUser()
           navigate("/")
@@ -77,14 +79,14 @@ export default function NavBar() {
             <NavLink to="/" className="nav-item">
               <FontAwesomeIcon className="icon" icon={faHouse} /> <p>Home</p>
             </NavLink>
-            <li className="nav-item">
+            <NavLink to="/search-news" className="nav-item">
               <FontAwesomeIcon icon={faMagnifyingGlass} className="icon" />
               <p>Search</p>
-            </li>
-            <a className="nav-item">
+            </NavLink>
+            <NavLink to="/" className="nav-item">
               <FontAwesomeIcon icon={faPaperPlane} className="icon" />
               <p>News</p>
-            </a>
+            </NavLink>
             <NavLink to="/login" className="nav-item">
               <FontAwesomeIcon icon={faRightToBracket} className="icon" />
               <p>Login</p>
@@ -114,14 +116,14 @@ export default function NavBar() {
                 </li>
                 <li className="nav-item">
                   <FontAwesomeIcon icon={faUser} className="text-green" />
-                  <p className="text-green"> {isLogged[0]} logged in</p>
+                  <p className="text-green"> {isLogged[0]} is online</p>
                 </li>
               </>
             )}
           </ul>
         </nav>
       </div>
-      <footer>All rights reserved &#169; </footer>
+      <footer className="text-white">All rights reserved &#169; </footer>
     </aside>
   )
 }

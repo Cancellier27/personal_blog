@@ -11,18 +11,25 @@ import Button from "react-bootstrap/Button"
 export default function AddNews() {
   const [authorName, setAuthorName] = useState("")
   const [loginClass, setLoginClass] = useState("")
+  const [newsMessage, setNewsMessage] = useState("")
+
+  const [cardTitle, setCardTitle] = useState("")
+  const [cardDescription, setCardDescription] = useState("")
+  const [newsTitle, setNewsTitle] = useState("")
+  const [newsDescription, setNewsDescription] = useState("")
 
   useEffect(() => {
-    // get current user key
-    let currentUser = getUserLogged()
-
     const getUserList = async () => {
+      // get current user key
+      let currentUser = getUserLogged()
+
       try {
-        await axiosInstance.get("/userInformation").then((res) => {
-          Object.keys(res.data).forEach((key) => {
-            if (key === currentUser.userKey) {
+        await axiosInstance.get("/usersList").then((res) => {
+          res.data.forEach((user) => {
+            const key = `${user.first_name}-${user.user_id}`
+            if (key === currentUser) {
               // get the current logged user name and surname
-              setAuthorName(`${res.data[key].name} ${res.data[key].surname}`)
+              setAuthorName(`${user.first_name} ${user.surname}`)
             }
           })
         })
@@ -37,44 +44,42 @@ export default function AddNews() {
 
   async function handleSubmit(event) {
     event.preventDefault()
-    const newsCreatedMsg = document.querySelector(".news-created-msg")
     const newsForm = document.querySelector(".news-form")
-    const cardTitle = document.querySelector(".card-title-input").value
-    const cardDescription = document.querySelector(
-      ".card-description-input"
-    ).value
-    const newsTitle = document.querySelector(".news-title-input").value
-    const newsDescription = document.querySelector(
-      ".news-description-input"
-    ).value
+    let currentUser = getUserLogged()
     const publishDate = getTodayDate()
-
     try {
       await axiosInstance
         .post("/news/create", {
-          cardTitle: cardTitle,
-          cardDescription: cardDescription,
-          newsTitle: newsTitle,
-          newsDescription: newsDescription,
-          publishDate: publishDate,
-          authorName: authorName
+          card_title: cardTitle,
+          card_description: cardDescription,
+          card_img: "Path-to-card-image",
+          card_img_alt: "card image alt",
+          news_title: newsTitle,
+          news_description: newsDescription,
+          news_img: "Path-to-news-image",
+          news_img_alt: "news image alt",
+          publish_date: publishDate,
+          author: authorName,
+          fk_user_id: Number(currentUser.split("-")[1]),
         })
         .then((res) => {
+          // show success message
           setLoginClass("success-msg")
-          newsCreatedMsg.innerHTML = "New news successfully created!"
+          setNewsMessage("New news successfully created!")
+
+          document.querySelector(".addNewsBtn").disabled = true
 
           // reset the form after 2 seconds
           setTimeout(() => {
+            document.querySelector(".addNewsBtn").disabled = false
             setLoginClass("")
-            newsCreatedMsg.innerHTML = ""
+            setNewsMessage("")
             newsForm.reset()
-          }, 2000)
-
+          }, 1000)
         })
     } catch (error) {
-      console.error("Error posting the news:", error)
+      console.error("f.  Error posting the news:", error)
     }
-
   }
 
   return (
@@ -91,6 +96,8 @@ export default function AddNews() {
               label="Card Title. (max 40 char)"
               className="mb-3"
               data-bs-theme="dark"
+              onChange={(e) => setCardTitle(e.target.value)}
+              value={cardTitle}
             >
               <Form.Control
                 required
@@ -107,6 +114,8 @@ export default function AddNews() {
               className="mb-3"
               data-bs-theme="dark"
               maxLength="10"
+              onChange={(e) => setCardDescription(e.target.value)}
+              value={cardDescription}
             >
               <Form.Control
                 required
@@ -131,6 +140,8 @@ export default function AddNews() {
               label="News Title. (max 100 char)"
               className="mb-3"
               data-bs-theme="dark"
+              onChange={(e) => setNewsTitle(e.target.value)}
+              value={newsTitle}
             >
               <Form.Control
                 required
@@ -145,6 +156,8 @@ export default function AddNews() {
               label="News description"
               className="mb-3"
               data-bs-theme="dark"
+              onChange={(e) => setNewsDescription(e.target.value)}
+              value={newsDescription}
             >
               <Form.Control
                 required
@@ -163,9 +176,9 @@ export default function AddNews() {
               <Form.Control type="file" multiple />
             </Form.Group>
             <hr></hr>
-            <Button type="Submit">Submit Form</Button>
+            <Button type="Submit" className="addNewsBtn">Submit Form</Button>
           </Form>
-          <p className={`news-created-msg ` + loginClass}> </p>
+          <p className={`news-created-msg ` + loginClass}>{newsMessage}</p>
         </div>
       </div>
     </div>

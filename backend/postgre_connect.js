@@ -1,11 +1,14 @@
 const { Client } = require('pg');
 
+// connect to the .env file
+require('dotenv').config()
+
 const client = new Client({
-  user: 'postgres',
-  host: 'localhost',        // or your remote host
-  database: 'personal_blog',
-  password: 'postpassword',
-  port: 5433,                // default PostgreSQL port
+  user: process.env.DB_USER,
+  host: process.env.DB_HOST,       
+  database: process.env.DB_DATABASE,
+  password: process.env.DB_PASSWORD,
+  port: process.env.DB_PORT, 
 });
 
 client.connect()

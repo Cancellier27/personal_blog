@@ -1,12 +1,3 @@
 {
-  "emmet.optimizeStylesheetParsing": true,
-  "emmet.preferences": {},
-  "emmet.syntaxProfiles": {
-
-  },
-
-  "emmet.includeLanguages": {
-  "javascript": "javascriptreact"
-}
-
+  "postman.settings.dotenv-detection-notification-visibility": false
 }

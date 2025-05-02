@@ -7,6 +7,7 @@ export default function UpdateCard({onDelete, cardTitle, newsTitle, newsId}) {
   const navigate = useNavigate()
 
   async function handleDelete() {
+    console.log(newsId)
     const confirmingDelete = window.confirm(
       "Are you sure you want to delete this news?"
     )
@@ -15,8 +16,9 @@ export default function UpdateCard({onDelete, cardTitle, newsTitle, newsId}) {
     }
 
     try {
-      await axiosInstance.delete(`/news/delete/${newsId}`)
-      onDelete(newsId) // Update state in parent
+      await axiosInstance.delete(`/news/delete/${newsId}`).then((res) => {
+        onDelete(newsId) // Update state in parent
+      })
     } catch (error) {
       console.error("Error while deleting the news!", error)
     }

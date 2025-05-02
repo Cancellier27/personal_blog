@@ -1,0 +1,55 @@
+.search-container {
+  border-top: var(--aside-bar-background-color) 2px solid;
+  margin-top: 20px;
+  padding-top: 0px;
+}
+
+.search-card {
+  display: flex;
+  min-height: 60px;
+  border: 2px solid rgb(30, 37, 51);
+  border-radius: 20px;
+  box-shadow: 5px 5px 5px rgb(26, 34, 51);
+  background-color: var(--aside-bar-background-color);
+  justify-content: flex-end;
+  align-items: center;
+  padding: 0 30px;
+  margin: 5px 0;
+  cursor: pointer;
+}
+
+.search-card:hover {
+  background-color: var(--nav-hover-color);
+  transform: scale(1.01);
+}
+
+.search-card-title {
+  display: flex;
+  min-height: 40px;
+  border: 2px solid rgb(30, 37, 51);
+  border-radius: 20px;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 0 30px;
+}
+
+.search-container p {
+  margin: 0;
+  padding: 0;
+}
+
+.search-card-news {
+  flex-grow: 1;
+}
+
+.search-card-author {
+  padding-left: 5px;
+  width: 155px;
+  border-left: 2px solid rgb(30, 37, 51);
+}
+
+.search-card-publish-date {
+  padding-left: 5px;
+  border-left: 2px solid rgb(30, 37, 51);
+  width: 111px;
+}

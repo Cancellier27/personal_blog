@@ -11,6 +11,7 @@ import LoginPage from "./components/login"
 import AddNews from "./components/add_news"
 import UpdateNews from './components/update_news'
 import EditNews from './components/edit_news'
+import SearchNews from './components/searchNews'
 
 const root = ReactDOM.createRoot(document.getElementById("root"))
 
@@ -23,6 +24,7 @@ root.render(
       <Route path="/add-news" element={<AddNews />} />
       <Route path="/update-news" element={<UpdateNews />} />
       <Route path="/update-news/:newsId" element={<EditNews />} />
+      <Route path="/search-news" element={<SearchNews />} />
     </Routes>
   </BrowserRouter>
 )
