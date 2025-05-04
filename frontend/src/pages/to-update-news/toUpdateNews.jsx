@@ -1,8 +1,8 @@
-import "./update_news.css"
-import NavBar from "../nav_bar"
-import UpdateCard from "./update_card"
-import axiosInstance from "../../tools/axios_instance"
 import { useEffect, useState } from "react"
+import "./toUpdateNews.css"
+import axiosInstance from "../../tools/axios_instance"
+import NavBar from "../../components/nav-bar/navBar"
+import ToUpdateNewsCard from "../../components/to-update-news-card/toUpdateNewsCard"
 
 export default function UpdateNews() {
   const [newsData, setNewsData] = useState([])
@@ -32,7 +32,7 @@ export default function UpdateNews() {
 
         <div className="update-card-main-container">
           {newsData.map((news, index) => (
-            <UpdateCard
+            <ToUpdateNewsCard
               key={news.news_id + "-" + index}
               cardTitle={news.card_title}
               newsTitle={news.news_title}

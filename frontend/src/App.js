@@ -1,8 +1,8 @@
 import {useEffect, useState} from "react"
 import axiosInstance from "./tools/axios_instance"
 import "./App.css"
-import NavBar from "./components/nav_bar"
-import NewsCard from "./components/news_card"
+import NavBar from "./components/nav-bar/navBar.jsx"
+import NewsCard from "./components/news-card/newsCard.jsx"
 
 import One_Piece from "./images/One_Piece.jpg"
 

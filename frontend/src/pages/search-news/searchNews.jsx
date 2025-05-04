@@ -1,8 +1,8 @@
 import {useEffect, useState} from "react"
-import "./searchNews.css"
-import NavBar from "../nav_bar"
-import axiosInstance from "../../tools/axios_instance"
 import {useNavigate} from "react-router"
+import "./searchNews.css"
+import axiosInstance from "../../tools/axios_instance"
+import NavBar from "../../components/nav-bar/navBar"
 
 import Button from "react-bootstrap/Button"
 import Form from "react-bootstrap/Form"

@@ -1,11 +1,12 @@
+import {useState} from "react"
+import {useNavigate} from "react-router"
 import "./login.css"
-import NavBar from "../nav_bar"
+import axiosInstance from "../../tools/axios_instance"
+import NavBar from "../../components/nav-bar/navBar"
+
 import FloatingLabel from "react-bootstrap/FloatingLabel"
 import Form from "react-bootstrap/Form"
 import Button from "react-bootstrap/Button"
-import axiosInstance from "../../tools/axios_instance"
-import {useNavigate} from "react-router"
-import {useState} from "react"
 
 export default function LoginPage() {
   const [loginClass, setLoginClass] = useState("")

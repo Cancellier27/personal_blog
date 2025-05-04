@@ -1,9 +1,9 @@
-import "./edit_news.css"
-import NavBar from "../nav_bar"
-import axiosInstance from "../../tools/axios_instance"
 import {useEffect, useState} from "react"
-import {getTodayDate, getNews, getUsers, getUserLogged} from "../../tools/utils"
 import {useParams, useNavigate} from "react-router"
+import "./editNews.css"
+import axiosInstance from "../../tools/axios_instance"
+import {getTodayDate, getNews} from "../../tools/utils"
+import NavBar from "../../components/nav-bar/navBar"
 
 import FloatingLabel from "react-bootstrap/FloatingLabel"
 import Form from "react-bootstrap/Form"

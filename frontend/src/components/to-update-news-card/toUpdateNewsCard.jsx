@@ -1,9 +1,10 @@
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
-import {faTrash, faPen} from "@fortawesome/free-solid-svg-icons"
-import axiosInstance from "../../../tools/axios_instance"
 import {useNavigate} from "react-router"
 
-export default function UpdateCard({onDelete, cardTitle, newsTitle, newsId}) {
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
+import {faTrash, faPen} from "@fortawesome/free-solid-svg-icons"
+import axiosInstance from "../../tools/axios_instance"
+
+export default function ToUpdateNewsCard({onDelete, cardTitle, newsTitle, newsId}) {
   const navigate = useNavigate()
 
   async function handleDelete() {

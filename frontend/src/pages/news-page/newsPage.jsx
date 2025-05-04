@@ -1,9 +1,10 @@
-import "./news_page.css"
-import One_Piece from "../../images/One_Piece.jpg"
-import NavBar from "../nav_bar"
-import {useParams} from "react-router"
 import {useEffect, useState} from "react"
+import {useParams} from "react-router"
+import "./newsPage.css"
 import axiosInstance from "../../tools/axios_instance"
+import NavBar from "../../components/nav-bar/navBar"
+
+import One_Piece from "../../images/One_Piece.jpg"
 
 export default function NewsPage() {
   const [newsData, setNewsData] = useState()

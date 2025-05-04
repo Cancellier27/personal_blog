@@ -1,8 +1,8 @@
-import "./add_news.css"
-import NavBar from "../nav_bar"
-import axiosInstance from "../../tools/axios_instance"
 import {useEffect, useState} from "react"
+import "./addNews.css"
+import axiosInstance from "../../tools/axios_instance"
 import {getTodayDate, getUserLogged} from "../../tools/utils"
+import NavBar from "../../components/nav-bar/navBar"
 
 import FloatingLabel from "react-bootstrap/FloatingLabel"
 import Form from "react-bootstrap/Form"

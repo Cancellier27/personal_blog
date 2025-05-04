@@ -1,4 +1,9 @@
-import "./nav_bar.css"
+import {NavLink, useNavigate} from "react-router"
+import {useState, useEffect} from "react"
+import "./navBar.css"
+import axiosInstance from "../../tools/axios_instance"
+import {getUserLogged} from "../../tools/utils"
+
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
 import {
   faHouse,
@@ -10,10 +15,6 @@ import {
   faFileLines,
   faPen
 } from "@fortawesome/free-solid-svg-icons"
-import {NavLink, useNavigate} from "react-router"
-import {useState, useEffect} from "react"
-import axiosInstance from "../../tools/axios_instance"
-import {getUserLogged} from "../../tools/utils"
 
 export default function NavBar() {
   const [isLogged, setIsLogged] = useState(["user", false])

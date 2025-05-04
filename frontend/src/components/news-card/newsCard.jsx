@@ -1,5 +1,5 @@
-import "./news_card.css"
 import { NavLink } from "react-router"
+import "./newsCard.css"
 
 export default function NewsCard({title, text, image, imgAlt, newsId}) {
   return (
