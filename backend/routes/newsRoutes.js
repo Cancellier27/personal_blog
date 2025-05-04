@@ -1,16 +1,18 @@
-import express from 'express';
-import {
+const express = require("express")
+const {
   getNewsInformation,
   createNews,
   deleteNews,
-  searchNews
-} from '../controllers/newsController.js';
+  searchNews,
+  updateNews
+} = require("../controllers/newsController.js")
 
-const router = express.Router();
+const router = express.Router()
 
-router.get('/newsInformation', getNewsInformation);
-router.post('/news/create', createNews);
-router.delete('/news/delete/:id', deleteNews);
-router.get('/searchNews', searchNews);
+router.get("/newsInformation", getNewsInformation)
+router.post("/create", createNews)
+router.delete("/delete/:id", deleteNews)
+router.put("/update", updateNews)
+router.get("/searchNews", searchNews)
 
-export default router;
+module.exports = router

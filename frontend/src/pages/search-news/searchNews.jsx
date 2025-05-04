@@ -37,7 +37,7 @@ function SearchNews() {
   useEffect(() => {
     async function getInitialNews() {
       try {
-        await axiosInstance.get("./newsInformation").then((res) => {
+        await axiosInstance.get("./news/newsInformation").then((res) => {
           setFilteredNews([...res.data])
         })
       } catch (err) {
@@ -54,7 +54,7 @@ function SearchNews() {
       if (newsSearch) params.search = newsSearch.split(" ").join("-")
       if (sortNews) params.sort = sortNews
 
-      const res = await axiosInstance.get("/searchNews", {params})
+      const res = await axiosInstance.get("/news/searchNews", {params})
       setFilteredNews([...res.data])
     } catch (error) {
       console.error("Error while searching news", error)

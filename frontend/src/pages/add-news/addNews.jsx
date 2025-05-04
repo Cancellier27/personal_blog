@@ -24,7 +24,7 @@ export default function AddNews() {
       let currentUser = getUserLogged()
 
       try {
-        await axiosInstance.get("/usersList").then((res) => {
+        await axiosInstance.get("/users/usersList").then((res) => {
           res.data.forEach((user) => {
             const key = `${user.first_name}-${user.user_id}`
             if (key === currentUser) {

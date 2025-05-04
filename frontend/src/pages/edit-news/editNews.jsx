@@ -51,7 +51,7 @@ export default function EditNews() {
 
     try {
       await axiosInstance
-        .put("/news/edit", {
+        .put("/news/update", {
           news_id: params.newsId,
           card_title: cardTitle,
           card_description: cardDescription,

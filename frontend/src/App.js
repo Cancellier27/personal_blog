@@ -12,7 +12,7 @@ function App() {
   useEffect(() => {
     try {
       // check if a user is logged in
-      axiosInstance.get("/newsInformation").then((res) => {
+      axiosInstance.get("/news/newsInformation").then((res) => {
         setNews([...res.data])
       })
     } catch (err) {

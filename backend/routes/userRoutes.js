@@ -1,8 +1,8 @@
-import express from 'express';
-import { getUsersList } from '../controllers/userController.js';
+const express = require("express")
+const {getUsersList} = require("../controllers/userController.js")
 
-const router = express.Router();
+const router = express.Router()
 
-router.get('/usersList', getUsersList);
+router.get("/usersList", getUsersList)
 
-export default router;
+module.exports = router

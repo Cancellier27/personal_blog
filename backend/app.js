@@ -1,9 +1,10 @@
-import express from 'express';
-import cors from 'cors';
-import userRoutes from './routes/userRoutes.js';
-import newsRoutes from './routes/newsRoutes.js';
-import authRoutes from './routes/authRoutes.js';
-import { errorHandler } from './middlewares/errorHandler.js';
+const express = require("express")
+const cors = require("cors")
+
+const userRoutes = require('./routes/userRoutes.js')
+const newsRoutes = require('./routes/newsRoutes.js')
+const authRoutes = require('./routes/authRoutes.js')
+const { errorHandler } = require('./middlewares/errorHandler.js')
 
 const app = express();
 
@@ -16,4 +17,4 @@ app.use('/news', newsRoutes);
 
 app.use(errorHandler);
 
-export default app;
+module.exports = app;

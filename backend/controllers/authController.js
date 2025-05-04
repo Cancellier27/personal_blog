@@ -1,8 +1,52 @@
-import pool from "../config/db.js"
-// const bcrypt = require("bcrypt")
-import bcrypt from "bcrypt"
+const pool = require("../config/db.js")
+const bcrypt = require("bcrypt")
+const saltRounds = 10
 
-export async function login(req, res, next) {
+const loadUsers = async () => {
+  try {
+    const result = await pool.query("SELECT * FROM users")
+    return result.rows
+  } catch (err) {
+    console.error(err)
+    res.status(500).send("Database error")
+  }
+}
+
+async function login(req, res, next) {
+  try {
+    const {username, password} = req.body
+
+    if (!password || !username) {
+      return res.status(400).json({error: "Email or password are required"})
+    }
+
+    let users = await loadUsers()
+    const user = users.find((user) => user.user_email === username)
+
+    if (!user) {
+      return res.status(400).json({error: "Invalid email or password"})
+    }
+
+    const isMatch = await bcrypt.compare(password, user.password_hash)
+    if (!isMatch) {
+      return res.status(400).json({error: "Invalid email or password"})
+    }
+
+    // update the is_logged status in the database
+    await pool.query(
+      `UPDATE users SET is_logged = true WHERE user_id = ${user.user_id};`
+    )
+
+    res.status(200).json({
+      message: "Login successful",
+      userKey: `${user.first_name}-${user.user_id}`
+    })
+  } catch (error) {
+    next(error)
+  }
+}
+
+async function register(req, res, next) {
   const {firstName, surname, userEmail, isLogged, isAdmin, passwordHash} =
     req.body
   try {
@@ -20,25 +64,7 @@ export async function login(req, res, next) {
   }
 }
 
-export async function register(req, res, next) {
-  const {firstName, surname, userEmail, isLogged, isAdmin, passwordHash} =
-    req.body
-  try {
-    bcrypt.genSalt(saltRounds, async function (err, salt) {
-      bcrypt.hash(passwordHash, salt, async function (err, hash) {
-        // store new user with hashed password
-        const result = await pool.query(
-          `INSERT INTO users (first_name, surname, user_email, is_logged, is_admin, password_hash) VALUES ('${firstName}', '${surname}', '${userEmail}', ${isLogged}, ${isAdmin}, '${hash}')`
-        )
-        res.status(201).json(result.rows[0])
-      })
-    })
-  } catch (err) {
-    next(err)
-  }
-}
-
-export async function passwordUpdate(req, res, next) {
+async function passwordUpdate(req, res, next) {
   try {
     const {userEmail, password} = req.body
 
@@ -70,7 +96,7 @@ export async function passwordUpdate(req, res, next) {
   }
 }
 
-export async function logout(req, res, next) {
+async function logout(req, res, next) {
   try {
     const {id} = req.body
 
@@ -80,10 +106,14 @@ export async function logout(req, res, next) {
     }
 
     // update database
-    await pool.query(`UPDATE users SET is_logged = false WHERE user_id = ${id};`)
+    await pool.query(
+      `UPDATE users SET is_logged = false WHERE user_id = ${id};`
+    )
     // send success response to frontend
     res.status(201).json(`User logged out successfully!`)
   } catch (err) {
     next(err)
   }
 }
+
+module.exports = {login, register, passwordUpdate, logout}

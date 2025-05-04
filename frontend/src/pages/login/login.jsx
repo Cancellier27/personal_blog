@@ -29,40 +29,47 @@ export default function LoginPage() {
     localStorage.setItem("user", JSON.stringify(userData))
   }
 
+  const showLoginErrorMsg = () => {
+    setLoginClass("error-msg")
+    setLoginMsg("Invalid email or password. Try again.")
+  }
+
+  const showLoginSuccessMsg = (toNavigate, time = 1500, msg = "") => {
+    setLoginClass("success-msg")
+    setLoginMsg(msg ? msg : "Success, Redirecting...")
+
+    document.querySelector(".loginBtn").disabled = true
+
+    setTimeout(() => {
+      if(toNavigate) navigate("/")
+      document.querySelector(".loginBtn").disabled = false
+    }, time)
+  }
+
   const handleSubmit = async (event) => {
     event.preventDefault()
 
     // check if a password was inserted and update the login message
     if (!passwordLogin || !emailLogin) {
-      setLoginClass("error-msg")
-      setLoginMsg("Invalid email or password. Try again.")
+      showLoginErrorMsg()
       return
     }
 
     // Login the user with encrypted password
     try {
       await axiosInstance
-        .post("/login", {
+        .post("/auth/login", {
           username: emailLogin,
           password: passwordLogin.toString()
         })
         .then((res) => {
-          // update the login message
-          setLoginClass("success-msg")
-          setLoginMsg("Success! Redirecting...")
-
           // When a user logs in, store their data in local storage:
           loginUserOnLocalStorage(res.data.userKey)
-
-          document.querySelector(".loginBtn").disabled = true
-
-          setTimeout(() => {
-            navigate("/")
-            document.querySelector(".loginBtn").disabled = false
-          }, 1500)
+          showLoginSuccessMsg(true)
         })
     } catch (error) {
-      console.error("Error while Login!:", error)
+      console.error("Error while Login!:", error.response.data.error)
+      showLoginErrorMsg()
     }
   }
 
@@ -71,25 +78,19 @@ export default function LoginPage() {
 
     // check if a password was inserted and update the login message
     if (!passwordLogin || !emailLogin) {
-      setLoginClass("error-msg")
-      setLoginMsg("Invalid email or password. Try again.")
+      showLoginErrorMsg()
       return
     }
 
     // Login the user with encrypted password
     try {
       await axiosInstance
-        .post("/login/password-update", {
+        .post("/auth/login/password-update", {
           userEmail: emailLogin,
           password: passwordLogin.toString()
         })
         .then((res) => {
-          setLoginClass("success-msg")
-          setLoginMsg("Password updated!")
-
-          setTimeout(() => {
-            setLoginMsg("")
-          }, 5000)
+          showLoginSuccessMsg(false, 0, "Password updated!")
         })
     } catch (error) {
       console.error("Error trying to update Password!:", error)
@@ -113,7 +114,7 @@ export default function LoginPage() {
 
     try {
       await axiosInstance
-        .post("/login/register", {
+        .post("/auth/register", {
           firstName: firstNameRegister,
           surname: surnameRegister,
           userEmail: emailRegister,
@@ -123,14 +124,11 @@ export default function LoginPage() {
         })
         .then((res) => {
           // update the login message
-          setLoginClass("success-msg")
-          setLoginMsg("User successfully registered!")
+          showLoginSuccessMsg(false, 0, "User successfully registered!")
           setIsRegistering(false)
           setRegisterMsg("")
 
-          setTimeout(() => {
-            setLoginMsg("")
-          }, 5000)
+
         })
     } catch (error) {
       console.error("Error while Login!:", error)

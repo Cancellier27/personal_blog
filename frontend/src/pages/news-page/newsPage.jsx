@@ -14,7 +14,7 @@ export default function NewsPage() {
     const getNews = async () => {
       try {
         // fetch information from the news database
-        await axiosInstance.get("/newsInformation").then((res) => {
+        await axiosInstance.get("/news/newsInformation").then((res) => {
           // const newsId = newsData.card_title.split(" ").join("-") + "-" + newsData.news_id
           res.data.forEach((news) => {
             let newsId = news.card_title.split(" ").join("-") + "-" + news.news_id
