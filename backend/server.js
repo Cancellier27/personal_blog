@@ -1,6 +1,6 @@
-const express = require("express")
-const cors = require("cors")
-const bcrypt = require("bcrypt")
+import express from "express"
+import cors from "cors"
+import bcrypt from "bcrypt"
 const app = express()
 const PORT = process.env.PORT || 8000
 const saltRounds = 10
@@ -8,8 +8,7 @@ const saltRounds = 10
 app.use(express.json())
 app.use(cors())
 
-// connect to PorstgreSQL database connect
-const db = require("./postgre_connect")
+import db from "./postgres_connect.js"
 
 app.get("/usersList", async (req, res) => {
   try {
@@ -220,28 +219,6 @@ app.get("/searchNews", async (req, res) => {
     console.error(err)
     res.status(500).send("Database error while getting news list")
   }
-
-  // if (searchWords !== "" && sortBy !== "") {
-  //   searchSQL = `SELECT * FROM news
-  //   WHERE job_title LIKE '%${searchWords}%'
-  //   ORDER BY ${sortBy};`
-  // } else if (searchWords === "") {
-  //   searchSQL = `SELECT * FROM news
-  //   ORDER BY ${sortBy};`
-  // } else if (sortBy === "") {
-  //   searchSQL = `SELECT * FROM news
-  //   WHERE job_title LIKE '%${searchWords}%'`
-  // }
-
-  // console.log(searchSQL)
-
-  // try {
-  //   const result = await db.query(`${searchSQL}`)
-  //   res.json(result.rows)
-  // } catch (err) {
-  //   console.error(err)
-  //   res.status(500).send("b. Database error while getting news list")
-  // }
 })
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`))

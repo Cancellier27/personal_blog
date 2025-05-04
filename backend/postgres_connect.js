@@ -1,19 +1,20 @@
-const { Client } = require('pg');
+import { Client } from "pg"
+import dotenv from "dotenv"
 
 // connect to the .env file
-require('dotenv').config()
+dotenv.config()
 
-const client = new Client({
+const db = new Client({
   user: process.env.DB_USER,
   host: process.env.DB_HOST,       
-  database: process.env.DB_DATABASE,
-  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+  password: process.env.DB_PASS,
   port: process.env.DB_PORT, 
 });
 
-client.connect()
+db.connect()
   .then(() => console.log('Connected to PostgreSQL'))
   .catch(err => console.error('Connection error', err.stack));
 
-module.exports = client;
+export default db;
 
