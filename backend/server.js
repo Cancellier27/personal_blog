@@ -193,4 +193,55 @@ app.put("/news/edit", async (req, res) => {
   res.status(200).json({message: "b. News updated successfully!"})
 })
 
+// ------------- Search news and sort
+app.get("/searchNews", async (req, res) => {
+  const {search = "", sort = ""} = req.query
+  const searchTerm = search.split("-").join(" ").trim()
+  const sortBy = sort.split("-").join(" ").trim()
+  const values = [`%${searchTerm}%`]
+  console.log("sort 0")
+
+  let query = "SELECT * FROM news"
+  if (searchTerm && sortBy) {
+    query += " WHERE news_title LIKE $1 ORDER BY " + sortBy
+    console.log("sort 1")
+  } else if (searchTerm) {
+    query += " WHERE news_title LIKE $1"
+    console.log("sort 2")
+  } else if (sortBy) {
+    query += " ORDER BY " + sortBy
+    console.log("sort 3")
+  }
+
+  try {
+    const result = await db.query(query, searchTerm ? values : [])
+    res.json(result.rows)
+  } catch (err) {
+    console.error(err)
+    res.status(500).send("Database error while getting news list")
+  }
+
+  // if (searchWords !== "" && sortBy !== "") {
+  //   searchSQL = `SELECT * FROM news
+  //   WHERE job_title LIKE '%${searchWords}%'
+  //   ORDER BY ${sortBy};`
+  // } else if (searchWords === "") {
+  //   searchSQL = `SELECT * FROM news
+  //   ORDER BY ${sortBy};`
+  // } else if (sortBy === "") {
+  //   searchSQL = `SELECT * FROM news
+  //   WHERE job_title LIKE '%${searchWords}%'`
+  // }
+
+  // console.log(searchSQL)
+
+  // try {
+  //   const result = await db.query(`${searchSQL}`)
+  //   res.json(result.rows)
+  // } catch (err) {
+  //   console.error(err)
+  //   res.status(500).send("b. Database error while getting news list")
+  // }
+})
+
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`))

@@ -11,6 +11,7 @@ import InputGroup from "react-bootstrap/InputGroup"
 function SearchNews() {
   const [newsSearch, setNewsSearch] = useState("")
   const [filteredNews, setFilteredNews] = useState([])
+  const [sortNews, setSortNews] = useState("")
   const navigate = useNavigate()
 
   const SearchCard = ({news_title, news_author, news_date, newsId}) => {
@@ -33,13 +34,30 @@ function SearchNews() {
     )
   }
 
+  useEffect(() => {
+    async function getInitialNews() {
+      try {
+        await axiosInstance.get("./newsInformation").then((res) => {
+          setFilteredNews([...res.data])
+        })
+      } catch (err) {
+        console.error("f. error while fetching the news data", err)
+      }
+    }
+
+    getInitialNews()
+  }, [])
+
   async function handleSearch() {
     try {
-      await axiosInstance.get("/newsInformation").then((res, req) => {
-        setFilteredNews([...res.data])
-      })
+      const params = {}
+      if (newsSearch) params.search = newsSearch.split(" ").join("-")
+      if (sortNews) params.sort = sortNews
+
+      const res = await axiosInstance.get("/searchNews", {params})
+      setFilteredNews([...res.data])
     } catch (error) {
-      console.error("f. Error while searching news", error)
+      console.error("Error while searching news", error)
     }
   }
 
@@ -62,6 +80,7 @@ function SearchNews() {
               variant="secondary"
               id="button-addon2"
               onClick={handleSearch}
+              
             >
               Search
             </Button>
@@ -71,12 +90,15 @@ function SearchNews() {
             aria-label="Default select example"
             data-bs-theme="dark"
             style={{width: "150px"}}
+            onChange={(e) => setSortNews(e.target.value)}
+            value={sortNews}
+            multiple={false}
           >
-            <option>Sort</option>
-            <option value="1">Newest</option>
-            <option value="2">Oldest</option>
-            <option value="3">A - Z</option>
-            <option value="4">Z - A</option>
+            <option value="">Sort by</option>
+            <option value="publish_date-DESC">Newest</option>
+            <option value="publish_date-ASC">Oldest</option>
+            <option value="news_title-ASC">A - Z</option>
+            <option value="news_title-DESC">Z - A</option>
           </Form.Select>
 
           <div className="search-container">
