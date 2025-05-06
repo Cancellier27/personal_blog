@@ -39,17 +39,76 @@ It was developed as a learning project to connect frontend and backend skills an
 git clone https://github.com/Cancellier27/personal_blog
 ```
 
-2. Run backend and frontend scripts:
+2. Install dependencies:
+```bash
+npm install
+```
 
+3. Install PostgreSQL
+If PostgreSQL is not installed, download and install it from:
+👉 https://www.postgresql.org/download/
+
+4. Create a new PostgreSQL database
+Access PostgreSQL using your terminal or a GUI like pgAdmin and create a new database. Example using psql:
+```bash
+psql -U your_username
+CREATE DATABASE <databse_name>;
+\c <databse_name>
+```
+
+5. Create tables called "users" and "news" in the database:
 
 ```bash
-cd frontend/
-npm start
+CREATE TABLE users (
+    user_id SERIAL PRIMARY KEY,
+    first_name VARCHAR(100) NOT NULL,
+    surname VARCHAR(100) NOT NULL,
+    user_email VARCHAR(150) UNIQUE NOT NULL,
+    is_logged BOOLEAN NOT NULL,
+    is_admin BOOLEAN NOT NULL,
+    password_hash VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE news (
+    news_id SERIAL PRIMARY KEY,
+    author VARCHAR(100) NOT NULL,
+    card_title VARCHAR(150) NOT NULL,
+    card_description TEXT NOT NULL,
+    card_img TEXT,
+    card_img_alt TEXT,
+    news_title VARCHAR(150) NOT NULL,
+    news_description TEXT NOT NULL,
+    news_img TEXT,
+    news_img_alt TEXT,
+    fk_user_id INTEGER REFERENCES users(user_id),
+    publish_date VARCHAR(10) NOT NULL
+);
 ```
+
+6. Create a .env file inside the backend/ folder with your database connection details:
+```bash
+PORT = <PORT_NUMBER>
+DB_USER = <USER_NAME>
+DB_HOST = <HOST_NAME>
+DB_NAME = <DATABASE_NAME>
+DB_PASS = <PASSWORD>
+DB_PORT = <DB_PORT>
+```
+
+7. Run backend and frontend scripts:
+
+Backend
 ```bash
 cd backend/
 npm start
 ```
+
+Frontend
+```bash
+cd frontend/
+npm start
+```
+
 
 
 
