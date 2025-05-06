@@ -32,7 +32,7 @@ export function getUserLogged() {
 // get users
 export async function getUsers() {
   try {
-    const usersInformation = await axiosInstance.get("/usersList")
+    const usersInformation = await axiosInstance.get("/users/usersList")
     return usersInformation.data
   } catch (error) {
     console.error("Error fetching the user list:", error)
@@ -42,7 +42,7 @@ export async function getUsers() {
 // get news
 export async function getNews() {
   try {
-    const newsInformation = await axiosInstance.get("/newsInformation")
+    const newsInformation = await axiosInstance.get("/news/newsInformation")
     return newsInformation.data
   } catch (error) {
     console.error("Error fetching the news list:", error)

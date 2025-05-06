@@ -25,7 +25,9 @@ export default function EditNews() {
   useEffect(() => {
     async function fetchNewsList() {
       const newsInformation = await getNews()
-      const news = newsInformation.filter((news) => news.news_id === Number(params.newsId))[0]
+      const news = newsInformation.filter(
+        (news) => news.news_id === Number(params.newsId)
+      )[0]
 
       setCardTitle(news.card_title)
       setCardDescription(news.card_description)
@@ -36,7 +38,6 @@ export default function EditNews() {
 
     fetchNewsList()
   }, [])
-
 
   async function handleSubmit(event) {
     event.preventDefault()
@@ -51,7 +52,7 @@ export default function EditNews() {
 
     try {
       await axiosInstance
-        .put("/news/edit", {
+        .put("/news/update", {
           news_id: params.newsId,
           card_title: cardTitle,
           card_description: cardDescription,
@@ -91,7 +92,7 @@ export default function EditNews() {
             <FloatingLabel
               controlId="floatingTextarea"
               label="Card Title. (max 40 char)"
-              className="mb-3"
+              className="mb-3  text-white"
               data-bs-theme="dark"
             >
               <Form.Control
@@ -108,7 +109,7 @@ export default function EditNews() {
             <FloatingLabel
               controlId="floatingTextarea"
               label="Card news brief description Card Title. (max 150 char)"
-              className="mb-3"
+              className="mb-3  text-white"
               data-bs-theme="dark"
               maxLength="10"
             >
@@ -125,7 +126,7 @@ export default function EditNews() {
             <Form.Group
               data-bs-theme="dark"
               controlId="formFile"
-              className="mb-3 w-50"
+              className="mb-3 w-50  text-white"
             >
               <Form.Label>Upload thumbnail</Form.Label>
               <Form.Control type="file" />
@@ -135,13 +136,13 @@ export default function EditNews() {
             <FloatingLabel
               controlId="floatingTextarea"
               label="News Title. (max 100 char)"
-              className="mb-3"
+              className="mb-3  text-white"
               data-bs-theme="dark"
             >
               <Form.Control
                 required
                 as="textarea"
-                className="news-title-input"
+                className="news-title-input text-white"
                 placeholder="News Title"
                 maxLength={100}
                 onChange={(e) => setNewsTitle(e.target.value)}
@@ -151,13 +152,13 @@ export default function EditNews() {
             <FloatingLabel
               controlId="floatingTextarea"
               label="News description"
-              className="mb-3"
+              className="mb-3 text-white"
               data-bs-theme="dark"
             >
               <Form.Control
                 required
                 as="textarea"
-                className="news-description-input"
+                className="news-description-input text-white"
                 placeholder="News description"
                 style={{height: "100px"}}
                 onChange={(e) => setNewsDescription(e.target.value)}
@@ -167,13 +168,15 @@ export default function EditNews() {
             <Form.Group
               data-bs-theme="dark"
               controlId="formFileMultiple"
-              className="mb-3 w-50"
+              className="mb-3 w-50 text-white"
             >
               <Form.Label>Upload images</Form.Label>
               <Form.Control type="file" multiple />
             </Form.Group>
-            <hr></hr> 
-            <Button type="Submit" className="updateNewsBtn">Submit Form</Button>
+            <hr></hr>
+            <Button type="Submit" className="updateNewsBtn">
+              Submit Form
+            </Button>
           </Form>
           <p className={`news-created-msg ` + loginClass}> </p>
         </div>

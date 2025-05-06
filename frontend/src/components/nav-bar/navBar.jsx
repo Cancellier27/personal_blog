@@ -27,7 +27,7 @@ export default function NavBar() {
 
     try {
       // check if a user is logged in
-      axiosInstance.get("/usersList").then((res) => {
+      axiosInstance.get("/users/usersList").then((res) => {
         res.data.forEach((user) => {
           let key = `${user.first_name}-${user.user_id}`
           // set the is logged parameter to show more options
@@ -55,7 +55,7 @@ export default function NavBar() {
     let idNumber = Number(isLogged[2].split("-")[1])
     try {
       axiosInstance
-        .post("/login/out", {
+        .post("/auth/logout", {
           id: idNumber
         })
         .then(() => {

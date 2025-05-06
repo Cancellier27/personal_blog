@@ -10,7 +10,7 @@ export default function UpdateNews() {
   useEffect(() => {
     const getNews = async () => {
       try {
-        const res = await axiosInstance.get("/newsInformation")
+        const res = await axiosInstance.get("/news/newsInformation")
         setNewsData([...res.data])
       } catch (error) {
         console.error("f. Error while fetching the news data!", error)
