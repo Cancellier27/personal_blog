@@ -94,7 +94,7 @@ export default function AddNews() {
             <FloatingLabel
               controlId="floatingTextarea"
               label="Card Title. (max 40 char)"
-              className="mb-3"
+              className="mb-3 text-white"
               data-bs-theme="dark"
               onChange={(e) => setCardTitle(e.target.value)}
               value={cardTitle}
@@ -111,7 +111,7 @@ export default function AddNews() {
             <FloatingLabel
               controlId="floatingTextarea"
               label="Card news brief description Card Title. (max 150 char)"
-              className="mb-3"
+              className="mb-3 text-white"
               data-bs-theme="dark"
               maxLength="10"
               onChange={(e) => setCardDescription(e.target.value)}
@@ -128,7 +128,7 @@ export default function AddNews() {
             <Form.Group
               data-bs-theme="dark"
               controlId="formFile"
-              className="mb-3 w-50"
+              className="mb-3 w-50 text-white"
             >
               <Form.Label>Upload thumbnail</Form.Label>
               <Form.Control type="file" />
@@ -138,7 +138,7 @@ export default function AddNews() {
             <FloatingLabel
               controlId="floatingTextarea"
               label="News Title. (max 100 char)"
-              className="mb-3"
+              className="mb-3 text-white"
               data-bs-theme="dark"
               onChange={(e) => setNewsTitle(e.target.value)}
               value={newsTitle}
@@ -154,7 +154,7 @@ export default function AddNews() {
             <FloatingLabel
               controlId="floatingTextarea"
               label="News description"
-              className="mb-3"
+              className="mb-3 text-white"
               data-bs-theme="dark"
               onChange={(e) => setNewsDescription(e.target.value)}
               value={newsDescription}
@@ -162,7 +162,7 @@ export default function AddNews() {
               <Form.Control
                 required
                 as="textarea"
-                className="news-description-input"
+                className="news-description-input text-white"
                 placeholder="News description"
                 style={{height: "100px"}}
               />
@@ -170,7 +170,7 @@ export default function AddNews() {
             <Form.Group
               data-bs-theme="dark"
               controlId="formFileMultiple"
-              className="mb-3 w-50"
+              className="mb-3 w-50 text-white"
             >
               <Form.Label>Upload images</Form.Label>
               <Form.Control type="file" multiple />

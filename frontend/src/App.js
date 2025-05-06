@@ -5,6 +5,8 @@ import NavBar from "./components/nav-bar/navBar.jsx"
 import NewsCard from "./components/news-card/newsCard.jsx"
 
 import One_Piece from "./images/One_Piece.jpg"
+import Oblivion from "./images/oblivion.jpg"
+import GTA6 from "./images/gta6.jpg"
 
 function App() {
   const [news, setNews] = useState([])
@@ -28,12 +30,16 @@ function App() {
           <h1 className="main-title title-font">Latest News</h1>
           {news.map((newsData, index) => {
             const newsId = newsData.card_title.split(" ").join("-") + "-" + newsData.news_id
+            let imageToUse
+            if(newsData.card_img === "gta6") imageToUse = GTA6
+            else if(newsData.card_img === "oblivion") imageToUse = Oblivion
+            else if(newsData.card_img === "one_piece") imageToUse = One_Piece
 
             return (
               <NewsCard
                 title={newsData.card_title}
                 text={newsData.card_description}
-                image={One_Piece}
+                image={imageToUse}
                 imgAlt={newsData.card_img_alt}
                 newsId={newsId}
                 key={index}

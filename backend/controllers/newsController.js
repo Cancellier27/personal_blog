@@ -16,8 +16,24 @@ async function createNews(req, res, next) {
 
     // update the is_logged status in the database
     await pool.query(
-      `INSERT INTO news (author, card_title, card_description, card_img, card_img_alt, news_title, news_description, news_img, news_img_alt, fk_user_id, publish_date)
-      VALUES ('${news.author}', '${news.card_title}', '${news.card_description}', '${news.card_img}', '${news.card_img_alt}', '${news.news_title}','${news.news_description}','${news.news_img}', '${news.news_img_alt}', ${news.fk_user_id}, '${news.publish_date}');`
+      `INSERT INTO news (
+        author, card_title, card_description, card_img, card_img_alt,
+        news_title, news_description, news_img, news_img_alt,
+        fk_user_id, publish_date
+      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`,
+      [
+        news.author,
+        news.card_title,
+        news.card_description,
+        news.card_img,
+        news.card_img_alt,
+        news.news_title,
+        news.news_description,
+        news.news_img,
+        news.news_img_alt,
+        news.fk_user_id,
+        news.publish_date
+      ]
     )
 
     res.status(200).json({
