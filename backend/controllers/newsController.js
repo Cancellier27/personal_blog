@@ -64,18 +64,14 @@ async function searchNews(req, res, next) {
     const searchTerm = search.split("-").join(" ").trim()
     const sortBy = sort.split("-").join(" ").trim()
     const values = [`%${searchTerm}%`]
-    console.log("sort 0")
 
     let query = "SELECT * FROM news"
     if (searchTerm && sortBy) {
       query += " WHERE news_title LIKE $1 ORDER BY " + sortBy
-      console.log("sort 1")
     } else if (searchTerm) {
       query += " WHERE news_title LIKE $1"
-      console.log("sort 2")
     } else if (sortBy) {
       query += " ORDER BY " + sortBy
-      console.log("sort 3")
     }
 
     const result = await pool.query(query, searchTerm ? values : [])

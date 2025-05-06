@@ -47,16 +47,26 @@ async function login(req, res, next) {
 }
 
 async function register(req, res, next) {
-  const {firstName, surname, userEmail, isLogged, isAdmin, passwordHash} =
-    req.body
   try {
+    const user = req.body
     bcrypt.genSalt(saltRounds, async function (err, salt) {
-      bcrypt.hash(passwordHash, salt, async function (err, hash) {
+      bcrypt.hash(user.password_hash, salt, async function (err, hash) {
         // store new user with hashed password
         const result = await pool.query(
-          `INSERT INTO users (first_name, surname, user_email, is_logged, is_admin, password_hash) VALUES ('${firstName}', '${surname}', '${userEmail}', ${isLogged}, ${isAdmin}, '${hash}')`
+          `INSERT INTO users (
+            first_name, surname, user_email, is_logged, is_admin, password_hash
+            ) VALUES ($1, $2, $3, $4, $5, $6)`,
+          [
+            user.first_name,
+            user.surname,
+            user.user_email,
+            user.is_logged,
+            user.is_admin,
+            hash
+          ]
         )
-        res.status(201).json(result.rows[0])
+
+        res.status(200).json({message: "User registered successfully!"})
       })
     })
   } catch (err) {
