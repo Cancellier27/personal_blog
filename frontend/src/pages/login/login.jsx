@@ -41,7 +41,7 @@ export default function LoginPage() {
     document.querySelector(".loginBtn").disabled = true
 
     setTimeout(() => {
-      if(toNavigate) navigate("/")
+      if (toNavigate) navigate("/")
       document.querySelector(".loginBtn").disabled = false
     }, time)
   }
@@ -100,7 +100,6 @@ export default function LoginPage() {
   const handleRegister = async (event) => {
     event.preventDefault()
 
-    // firstName, surname, userEmail, isLogged, isAdmin, passwordHash
     if (
       !firstNameRegister ||
       !surnameRegister ||
@@ -115,20 +114,25 @@ export default function LoginPage() {
     try {
       await axiosInstance
         .post("/auth/register", {
-          firstName: firstNameRegister,
+          first_name: firstNameRegister,
           surname: surnameRegister,
-          userEmail: emailRegister,
-          isLogged: false,
-          isAdmin: adminRegister,
-          passwordHash: passwordRegister.toString()
+          user_email: emailRegister,
+          is_logged: false,
+          is_admin: adminRegister,
+          password_hash: passwordRegister.toString()
         })
         .then((res) => {
+          console.log("user added")
           // update the login message
-          showLoginSuccessMsg(false, 0, "User successfully registered!")
-          setIsRegistering(false)
-          setRegisterMsg("")
+          document.querySelector(".register-btn").disabled = true
+          setLoginClass("success-msg")
+          setRegisterMsg("User successfully registered!")
 
-
+          setTimeout(() => {
+            document.querySelector(".register-btn").disabled = false
+            setIsRegistering(false)
+            setRegisterMsg("")
+          }, 1500)
         })
     } catch (error) {
       console.error("Error while Login!:", error)
@@ -265,7 +269,11 @@ export default function LoginPage() {
                   onChange={(e) => setAdminRegister(e.target.checked)}
                 />
 
-                <Button type="submit" onClick={handleRegister}>
+                <Button
+                  type="submit"
+                  onClick={handleRegister}
+                  className="register-btn"
+                >
                   Register
                 </Button>
                 <Button
