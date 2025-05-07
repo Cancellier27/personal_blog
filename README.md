@@ -116,8 +116,15 @@ npm start
 
 
 
+## :mailbox_with_mail: Get in touch!
 
-<h1 align="center">
-<img alt="GitHub language count" src="/loading.gif">
-</h1>
+<a href="https://filipe-site.now.sh/](https://cancellier27.github.io/web-app-fc/" target="_blank" >
+  <img alt="Website - Filipe" src="https://img.shields.io/badge/Website--%23F8952D?style=social">
+</a>&nbsp;&nbsp;&nbsp;
+<a href="https://www.linkedin.com/in/filipe-cancellier-da-costa-8459ab160/" target="_blank" >
+  <img alt="Linkedin - Filipe" src="https://img.shields.io/badge/Linkedin--%23F8952D?style=social&logo=linkedin">
+</a>&nbsp;&nbsp;&nbsp;
+<a href="mailto:filipecancelliercosta@gmail.com" target="_blank" >
+  <img alt="Email - Filipe" src="https://img.shields.io/badge/Email--%23F8952D?style=social&logo=gmail">
+</a>
 
