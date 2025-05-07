@@ -118,7 +118,7 @@ npm start
 
 ## :mailbox_with_mail: Get in touch!
 
-<a href="https://filipe-site.now.sh/](https://cancellier27.github.io/web-app-fc/" target="_blank" >
+<a href="https://cancellier27.github.io/web-app-fc/" target="_blank" >
   <img alt="Website - Filipe" src="https://img.shields.io/badge/Website--%23F8952D?style=social">
 </a>&nbsp;&nbsp;&nbsp;
 <a href="https://www.linkedin.com/in/filipe-cancellier-da-costa-8459ab160/" target="_blank" >
