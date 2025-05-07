@@ -10,12 +10,17 @@
   <img alt="GitHub language count" src="https://img.shields.io/badge/languages-6-brightgreen">
 </p>
 
-## 🖥️ Full Stack Blog
+## 🖥️ Full Stack News Website
 
 
-This is a full-stack personal blog app built from scratch — the backend is powered by Node.js and Express with a PostgreSQL database, and the frontend is built using ReactJS with Axios for API calls and Bootstrap for styling. It allows users to read posts and manage blog content through an admin interface.
+This is a full-stack personal blog app built from scratch, inspired by <a href="https://www.ign.com/uk" >IGN website</a>, the backend is powered by Node.js and Express with a PostgreSQL database, and the frontend is built using ReactJS with Axios for API calls and Bootstrap for styling. It allows users to read posts and manage blog content through an admin interface.
 
-It was developed as a learning project to connect frontend and backend skills and practice CRUD operations with a real database.
+It was developed as a learning project to connect frontend and backend skills and practice CRUD operations with a real database. I used my passion for games to developed it, so the result is a news blog focused on video games news.
+
+
+<h1 align="center">
+<img alt="GitHub language count" src="/websiteTemplate.png">
+</h1>
 
 ## 🚀 Tech Stack
 
