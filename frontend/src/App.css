@@ -9,8 +9,12 @@
   margin-left: 300px;
   min-height: 100vh;
   min-width: calc(100vw - 300px);
-  padding: 50px 250px 100px 140px;
+  padding: 50px 250px 0px 140px;
   position: relative;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .main-title {

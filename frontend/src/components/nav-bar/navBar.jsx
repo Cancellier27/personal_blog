@@ -124,7 +124,7 @@ export default function NavBar() {
           </ul>
         </nav>
       </div>
-      <footer className="text-white">All rights reserved &#169; </footer>
+      <footer className="text-white"> Praise the sun! </footer>
     </aside>
   )
 }

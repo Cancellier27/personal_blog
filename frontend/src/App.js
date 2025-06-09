@@ -3,6 +3,7 @@ import axiosInstance from "./tools/axios_instance"
 import "./App.css"
 import NavBar from "./components/nav-bar/navBar.jsx"
 import NewsCard from "./components/news-card/newsCard.jsx"
+import MainFooter from "./components/mainFooter/mainFooter.jsx"
 
 import One_Piece from "./images/One_Piece.jpg"
 import Oblivion from "./images/oblivion.jpg"
@@ -47,7 +48,7 @@ function App() {
             )
           })}
         </section>
-        <footer id="footer-tag">Footer</footer>
+        <MainFooter />
       </div>
     </div>
   )

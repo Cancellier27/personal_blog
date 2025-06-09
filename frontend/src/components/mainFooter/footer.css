@@ -1,0 +1,10 @@
+#footer-section {
+  margin-top: 100px;
+  height: 90px;
+  border-top: solid 1px var(--division-border-color);
+  padding-top: 10px;
+}
+
+.footer-container {
+
+}
